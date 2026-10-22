@@ -11,7 +11,7 @@
 
     <section class="home-menu">
 
-        <a href="#" class="home-card">
+        <a href="{{ route('vendas.create') }}" class="home-card">
             <h3>Nova Venda</h3>
             <p>Iniciar uma nova venda</p>
         </a>

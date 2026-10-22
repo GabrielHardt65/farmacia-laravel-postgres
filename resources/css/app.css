@@ -1,3 +1,29 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+
+/* ================================
+   CONFIGURAÇÕES GERAIS
+================================ */
+
+body {
+    margin: 0;
+    background: #f6f7fb;
+    color: #252936;
+}
+
+
+/* ================================
+   TELA INICIAL
+================================ */
+
 .home-container {
     min-height: 100vh;
     background: #f6f7fb;
@@ -54,6 +80,8 @@
 }
 
 
+/* CARDS DA TELA INICIAL */
+
 .home-menu {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -96,6 +124,9 @@
     line-height: 1.4;
 }
 
+
+/* RESPONSIVIDADE DA TELA INICIAL */
+
 @media (max-width: 1100px) {
     .home-menu {
         grid-template-columns: repeat(2, 1fr);
@@ -115,6 +146,8 @@
         grid-template-columns: 1fr;
     }
 }
+
+
 /* ================================
    TELA DE LOGIN
 ================================ */
@@ -177,7 +210,7 @@
 }
 
 
-/* FORMULÁRIO */
+/* FORMULÁRIO DO LOGIN */
 
 .login-form {
     display: flex;
@@ -234,7 +267,7 @@
 }
 
 
-/* CELULAR */
+/* RESPONSIVIDADE DO LOGIN */
 
 @media (max-width: 550px) {
     .login-container {
@@ -243,5 +276,375 @@
 
     .login-card {
         padding: 30px 25px;
+    }
+}
+
+
+/* ================================
+   LAYOUT INTERNO
+================================ */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* MENU LATERAL */
+
+.sidebar {
+    width: 230px;
+    min-height: 100vh;
+    background: #171923;
+    color: #ffffff;
+    padding: 24px 16px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    box-sizing: border-box;
+}
+
+.sidebar-logo {
+    padding: 0 12px 25px;
+    border-bottom: 1px solid #2d303d;
+    margin-bottom: 20px;
+}
+
+.sidebar-logo h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.sidebar-logo span {
+    display: block;
+    margin-top: 3px;
+    color: #a9adba;
+    font-size: 12px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-menu a {
+    display: block;
+    color: #c9ccd5;
+    text-decoration: none;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.sidebar-menu a:hover {
+    background: #2a2d39;
+    color: #ffffff;
+}
+
+
+/* ÁREA PRINCIPAL */
+
+.main-content {
+    flex: 1;
+    margin-left: 230px;
+    min-height: 100vh;
+}
+
+
+/* CABEÇALHO INTERNO */
+
+.topbar {
+    height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8e9ef;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 32px;
+    box-sizing: border-box;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #252936;
+}
+
+.user-info {
+    font-size: 14px;
+    color: #666b78;
+}
+
+
+/* CONTEÚDO DAS PÁGINAS INTERNAS */
+
+.page-content {
+    padding: 32px;
+}
+
+
+/* ================================
+   NOVA VENDA
+================================ */
+
+.venda-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+/* INFORMAÇÕES DA VENDA */
+
+.venda-info {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 20px 24px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.venda-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.venda-label {
+    font-size: 12px;
+    color: #777c89;
+}
+
+.venda-info strong {
+    font-size: 15px;
+    color: #252936;
+}
+
+
+/* BLOCOS DA VENDA */
+
+.venda-section {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.section-header {
+    margin-bottom: 22px;
+}
+
+.section-header h2 {
+    margin: 0 0 5px;
+    font-size: 18px;
+    color: #252936;
+}
+
+.section-header p {
+    margin: 0;
+    font-size: 13px;
+    color: #777c89;
+}
+
+
+/* BUSCAS */
+
+.venda-search {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.venda-field {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.venda-field-large {
+    flex: 1;
+    min-width: 280px;
+}
+
+.venda-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.venda-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #252936;
+
+    outline: none;
+}
+
+.venda-field input:focus {
+    border-color: #8b8f9c;
+}
+
+
+/* BOTÕES DA VENDA */
+
+.btn-secondary,
+.btn-outline,
+.btn-finalizar {
+    border-radius: 8px;
+    padding: 11px 18px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-secondary {
+    border: none;
+    background: #252936;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background: #171923;
+}
+
+.btn-outline {
+    background: #ffffff;
+    border: 1px solid #d7d9e0;
+    color: #363a46;
+}
+
+.btn-outline:hover {
+    background: #f5f6f8;
+}
+
+
+/* TABELA DE ITENS */
+
+.venda-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.venda-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.venda-table th {
+    padding: 12px;
+    text-align: left;
+
+    font-size: 12px;
+    color: #777c89;
+
+    border-bottom: 1px solid #e5e7ed;
+}
+
+.venda-table td {
+    padding: 14px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid #eeeeef;
+}
+
+.empty-row td {
+    text-align: center;
+    padding: 30px;
+    color: #9296a2;
+}
+
+
+/* RESUMO DA VENDA */
+
+.venda-resumo {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 24px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 40px;
+}
+
+.venda-valores {
+    width: 300px;
+}
+
+.venda-valores > div {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 8px 0;
+
+    font-size: 13px;
+    color: #666b78;
+}
+
+.venda-total {
+    margin-top: 7px;
+    padding-top: 15px !important;
+    border-top: 1px solid #e5e7ed;
+}
+
+.venda-total span,
+.venda-total strong {
+    font-size: 18px;
+    color: #252936;
+}
+
+.btn-finalizar {
+    border: none;
+    background: #252936;
+    color: #ffffff;
+    padding: 13px 22px;
+}
+
+.btn-finalizar:hover {
+    background: #171923;
+}
+
+
+/* RESPONSIVIDADE DA NOVA VENDA */
+
+@media (max-width: 750px) {
+    .venda-info {
+        flex-direction: column;
+    }
+
+    .venda-resumo {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .venda-valores {
+        width: 100%;
+    }
+
+    .btn-finalizar {
+        width: 100%;
     }
 }
