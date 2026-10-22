@@ -7,3 +7,101 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+body {
+    margin: 0;
+    background: #f6f7fb;
+    color: #252936;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+.sidebar {
+    width: 230px;
+    min-height: 100vh;
+    background: #171923;
+    color: #ffffff;
+    padding: 24px 16px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-logo {
+    padding: 0 12px 25px;
+    border-bottom: 1px solid #2d303d;
+    margin-bottom: 20px;
+}
+
+.sidebar-logo h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.sidebar-logo span {
+    display: block;
+    margin-top: 3px;
+    color: #a9adba;
+    font-size: 12px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-menu a {
+    color: #c9ccd5;
+    text-decoration: none;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.sidebar-menu a:hover {
+    background: #2a2d39;
+    color: #ffffff;
+}
+
+
+
+.main-content {
+    flex: 1;
+    margin-left: 262px;
+    min-height: 100vh;
+}
+
+
+
+.topbar {
+    height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8e9ef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.user-info {
+    font-size: 14px;
+    color: #666b78;
+}
+
+
+.page-content {
+    padding: 32px;
+}
