@@ -648,3 +648,104 @@ body {
         width: 100%;
     }
 }
+
+/* ================================
+   RECEITAS
+================================ */
+
+.receita-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.receita-section {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.receita-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.receita-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.receita-field-full {
+    grid-column: 1 / -1;
+}
+
+.receita-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.receita-field input,
+.receita-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #252936;
+    font-size: 14px;
+
+    outline: none;
+    resize: vertical;
+}
+
+.receita-field input:focus,
+.receita-field textarea:focus {
+    border-color: #8b8f9c;
+    box-shadow: 0 0 0 3px rgba(37, 41, 54, 0.05);
+}
+
+
+/* AÇÕES */
+
+.receita-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+.receita-actions .btn-outline {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 750px) {
+    .receita-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .receita-field-full {
+        grid-column: auto;
+    }
+
+    .receita-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .receita-actions .btn-outline,
+    .receita-actions .btn-secondary {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}
