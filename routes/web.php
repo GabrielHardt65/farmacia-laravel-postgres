@@ -13,3 +13,7 @@ Route::get('/login', function () {
 Route::get('/vendas/nova', function () {
     return view('vendas.create');
 })->name('vendas.create');
+
+Route::get('/receitas/nova', function () {
+    return view('receitas.create');
+})->name('receitas.create');

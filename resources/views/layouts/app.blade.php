@@ -24,7 +24,7 @@
             <nav class="sidebar-menu">
                 <a href="{{ route('inicio') }}">Início</a>
                 <a href="{{ route('vendas.create') }}">Nova venda</a>
-                <a href="#">Receitas</a>
+                <a href="{{ route('receitas.create') }}">Receitas</a>
                 <a href="#">Compras</a>
                 <a href="#">Produtos</a>
                 <a href="#">Categorias</a>
