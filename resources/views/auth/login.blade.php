@@ -25,8 +25,7 @@
                 <p>Entre com seus dados para acessar o sistema.</p>
             </div>
 
-            <form class="login-form" method="POST" action="#">
-                @csrf
+            <form class="login-form" method="GET" action="{{ route('inicio') }}">     
 
                 <div class="form-group">
                     <label for="email">E-mail</label>
