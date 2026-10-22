@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+Route::get('/vendas/nova', function () {
+    return view('vendas.create');
+})->name('vendas.create');
