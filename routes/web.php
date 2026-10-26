@@ -33,3 +33,11 @@ Route::get('/produtos', function () {
 Route::get('/produtos/novo', function () {
     return view('produtos.create');
 })->name('produtos.create');
+
+Route::get('/compras', function () {
+    return view('compras.index');
+})->name('compras.index');
+
+Route::get('/compras/nova', function () {
+    return view('compras.create');
+})->name('compras.create');
