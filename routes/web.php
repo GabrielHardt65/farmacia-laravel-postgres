@@ -41,3 +41,11 @@ Route::get('/compras', function () {
 Route::get('/compras/nova', function () {
     return view('compras.create');
 })->name('compras.create');
+
+Route::get('/categorias', function () {
+    return view('categorias.index');
+})->name('categorias.index');
+
+Route::get('/categorias/nova', function () {
+    return view('categorias.create');
+})->name('categorias.create');
