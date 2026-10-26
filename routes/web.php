@@ -17,3 +17,7 @@ Route::get('/vendas/nova', function () {
 Route::get('/receitas/nova', function () {
     return view('receitas.create');
 })->name('receitas.create');
+
+Route::get('/pagamentos/novo', function () {
+    return view('pagamentos.create');
+})->name('pagamentos.create');

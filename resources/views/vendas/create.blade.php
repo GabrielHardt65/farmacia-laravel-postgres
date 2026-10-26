@@ -130,10 +130,9 @@
                 </div>
             </div>
 
-            <button type="button" class="btn-finalizar">
+            <a href="{{ route('pagamentos.create') }}" class="btn-finalizar">
                 Ir para pagamento
-            </button>
-
+            </a>
         </section>
 
     </div>
