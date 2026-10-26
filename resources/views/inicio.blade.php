@@ -21,10 +21,10 @@
             <p>Consultar receitas cadastradas</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('compras.index') }}" class="home-card">
             <h3>Compras</h3>
             <p>Registrar entrada de produtos</p>
-        </a>
+    </a>
 
         <a href="{{ route('produtos.index') }}" class="home-card">
             <h3>Produtos</h3>
