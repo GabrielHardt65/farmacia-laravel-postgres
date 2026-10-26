@@ -172,9 +172,9 @@
                 Voltar
             </a>
 
-            <button type="button" class="btn-finalizar">
+            <a href="{{ route('comprovantes.show') }}" class="btn-finalizar">
                 Finalizar Pagamento
-            </button>
+            </a>
 
         </div>
 
