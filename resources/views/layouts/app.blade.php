@@ -26,7 +26,7 @@
                 <a href="{{ route('vendas.create') }}">Nova venda</a>
                 <a href="{{ route('receitas.create') }}">Receitas</a>
                 <a href="#">Compras</a>
-                <a href="#">Produtos</a>
+                <a href="{{ route('produtos.index') }}">Produtos</a>
                 <a href="#">Categorias</a>
                 <a href="#">Fornecedores</a>
                 <a href="#">Clientes</a>
