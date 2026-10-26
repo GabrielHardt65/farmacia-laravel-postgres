@@ -21,3 +21,7 @@ Route::get('/receitas/nova', function () {
 Route::get('/pagamentos/novo', function () {
     return view('pagamentos.create');
 })->name('pagamentos.create');
+
+Route::get('/comprovantes/venda', function () {
+    return view('comprovantes.show');
+})->name('comprovantes.show');
