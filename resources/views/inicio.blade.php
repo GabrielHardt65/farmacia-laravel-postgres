@@ -24,14 +24,14 @@
         <a href="{{ route('compras.index') }}" class="home-card">
             <h3>Compras</h3>
             <p>Registrar entrada de produtos</p>
-    </a>
+        </a>
 
         <a href="{{ route('produtos.index') }}" class="home-card">
             <h3>Produtos</h3>
-    <       p>Consultar e cadastrar produtos</p>
+            <p>Consultar e cadastrar produtos</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('categorias.index') }}" class="home-card">
             <h3>Cadastros</h3>
             <p>Categorias e fornecedores</p>
         </a>
