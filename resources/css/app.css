@@ -869,10 +869,6 @@ body {
     }
 }
 
-/* ================================
-   COMPROVANTE
-================================ */
-
 .comprovante-container {
     display: flex;
     justify-content: center;
@@ -905,9 +901,6 @@ body {
     color: #777c89;
 }
 
-
-/* DADOS DA VENDA */
-
 .comprovante-info {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -932,9 +925,6 @@ body {
     color: #252936;
 }
 
-
-/* PRODUTOS */
-
 .comprovante-produtos {
     padding: 24px 0;
 }
@@ -944,9 +934,6 @@ body {
     font-size: 16px;
     color: #252936;
 }
-
-
-/* RESUMO */
 
 .comprovante-resumo {
     max-width: 450px;
@@ -975,9 +962,6 @@ body {
     color: #252936;
 }
 
-
-/* BOTÕES */
-
 .comprovante-actions {
     display: flex;
     justify-content: flex-end;
@@ -992,9 +976,6 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-
-/* RESPONSIVIDADE */
 
 @media (max-width: 850px) {
     .comprovante-info {
@@ -1013,5 +994,136 @@ body {
 
     .comprovante-actions {
         flex-direction: column-reverse;
+    }
+}
+
+.produtos-container,
+.produto-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.produtos-section,
+.produto-form-section {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.produtos-filtros {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.produtos-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.produtos-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.produtos-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #252936;
+    font-size: 14px;
+    outline: none;
+}
+
+.produtos-field input:focus {
+    border-color: #8b8f9c;
+}
+
+.produto-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.produto-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.produto-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.produto-field input,
+.produto-field select,
+.produto-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #252936;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.produto-field input:focus,
+.produto-field select:focus,
+.produto-field textarea:focus {
+    border-color: #8b8f9c;
+}
+
+.produto-field-full {
+    margin-top: 20px;
+}
+
+.produto-field textarea {
+    resize: vertical;
+}
+
+.produto-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.produto-form-actions .btn-outline,
+.produto-form-actions .btn-finalizar {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 750px) {
+    .produto-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .produtos-filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .produto-form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
     }
 }

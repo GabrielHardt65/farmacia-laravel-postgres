@@ -26,9 +26,9 @@
             <p>Registrar entrada de produtos</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('produtos.index') }}" class="home-card">
             <h3>Produtos</h3>
-            <p>Consultar e cadastrar produtos</p>
+    <       p>Consultar e cadastrar produtos</p>
         </a>
 
         <a href="#" class="home-card">

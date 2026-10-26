@@ -25,3 +25,11 @@ Route::get('/pagamentos/novo', function () {
 Route::get('/comprovantes/venda', function () {
     return view('comprovantes.show');
 })->name('comprovantes.show');
+
+Route::get('/produtos', function () {
+    return view('produtos.index');
+})->name('produtos.index');
+
+Route::get('/produtos/novo', function () {
+    return view('produtos.create');
+})->name('produtos.create');
