@@ -65,3 +65,11 @@ Route::get('/clientes', function () {
 Route::get('/clientes/novo', function () {
     return view('clientes.create');
 })->name('clientes.create');
+
+Route::get('/funcionarios', function () {
+    return view('funcionarios.index');
+})->name('funcionarios.index');
+
+Route::get('/funcionarios/novo', function () {
+    return view('funcionarios.create');
+})->name('funcionarios.create');
