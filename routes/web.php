@@ -73,3 +73,7 @@ Route::get('/funcionarios', function () {
 Route::get('/funcionarios/novo', function () {
     return view('funcionarios.create');
 })->name('funcionarios.create');
+
+Route::get('/relatorios', function () {
+    return view('relatorios.index');
+})->name('relatorios.index'); 
