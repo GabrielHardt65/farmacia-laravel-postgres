@@ -1676,3 +1676,140 @@ body {
         align-items: stretch;
     }
 }
+
+/* ================================
+   FUNCIONÁRIOS
+================================ */
+
+.funcionarios-container,
+.funcionario-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.funcionarios-section,
+.funcionario-form-section {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+/* FILTROS */
+
+.funcionarios-filtros {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.funcionarios-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.funcionarios-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.funcionarios-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #252936;
+    font-size: 14px;
+    outline: none;
+}
+
+.funcionarios-field input:focus {
+    border-color: #8b8f9c;
+}
+
+/* CADASTRO */
+
+.funcionario-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.funcionario-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.funcionario-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.funcionario-field input,
+.funcionario-field select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #252936;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.funcionario-field input:focus,
+.funcionario-field select:focus {
+    border-color: #8b8f9c;
+}
+
+.funcionario-field-full {
+    margin-top: 20px;
+}
+
+/* AÇÕES */
+
+.funcionario-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.funcionario-form-actions .btn-outline,
+.funcionario-form-actions .btn-finalizar {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 750px) {
+    .funcionario-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .funcionarios-filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .funcionario-form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+}

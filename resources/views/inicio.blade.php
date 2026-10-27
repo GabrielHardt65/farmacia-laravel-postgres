@@ -41,7 +41,7 @@
             <p>Consultar e cadastrar clientes</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('funcionarios.index') }}">
             <h3>Funcionários</h3>
             <p>Gerenciar funcionários</p>
         </a>
