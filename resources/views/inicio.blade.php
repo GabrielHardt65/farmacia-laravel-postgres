@@ -46,7 +46,7 @@
             <p>Gerenciar funcionários</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('relatorios.index') }}">
             <h3>Relatórios</h3>
             <p>Visualizar relatórios da farmácia</p>
         </a>
