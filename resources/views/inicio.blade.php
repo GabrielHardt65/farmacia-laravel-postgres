@@ -36,7 +36,7 @@
             <p>Categorias e fornecedores</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('clientes.index') }}" class="home-card">
             <h3>Clientes</h3>
             <p>Consultar e cadastrar clientes</p>
         </a>

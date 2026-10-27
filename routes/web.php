@@ -57,3 +57,11 @@ Route::get('/fornecedores', function () {
 Route::get('/fornecedores/novo', function () {
     return view('fornecedores.create');
 })->name('fornecedores.create');
+
+Route::get('/clientes', function () {
+    return view('clientes.index');
+})->name('clientes.index');
+
+Route::get('/clientes/novo', function () {
+    return view('clientes.create');
+})->name('clientes.create');
