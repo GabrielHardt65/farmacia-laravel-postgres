@@ -49,3 +49,11 @@ Route::get('/categorias', function () {
 Route::get('/categorias/nova', function () {
     return view('categorias.create');
 })->name('categorias.create');
+
+Route::get('/fornecedores', function () {
+    return view('fornecedores.index');
+})->name('fornecedores.index');
+
+Route::get('/fornecedores/novo', function () {
+    return view('fornecedores.create');
+})->name('fornecedores.create');
