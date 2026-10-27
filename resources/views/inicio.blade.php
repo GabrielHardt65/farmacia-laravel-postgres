@@ -41,12 +41,12 @@
             <p>Consultar e cadastrar clientes</p>
         </a>
 
-        <a href="{{ route('funcionarios.index') }}">
+        <a href="{{ route('funcionarios.index') }}" class="home-card">
             <h3>Funcionários</h3>
             <p>Gerenciar funcionários</p>
         </a>
 
-        <a href="{{ route('relatorios.index') }}">
+        <a href="{{ route('relatorios.index') }}" class="home-card">
             <h3>Relatórios</h3>
             <p>Visualizar relatórios da farmácia</p>
         </a>
