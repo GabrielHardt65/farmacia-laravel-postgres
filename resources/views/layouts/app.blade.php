@@ -29,7 +29,7 @@
                 <a href="{{ route('produtos.index') }}">Produtos</a>
                 <a href="{{ route('categorias.index') }}">Categorias</a>
                 <a href="{{ route('fornecedores.index') }}">Fornecedores</a>
-                <a href="#">Clientes</a>
+                <a href="{{ route('clientes.index') }}">Clientes</a>
                 <a href="#">Funcionários</a>
                 <a href="#">Relatórios</a>
             </nav>
