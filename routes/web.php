@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClienteController;
 
 Route::get('/', function () {
     return view('inicio');
@@ -62,13 +63,14 @@ Route::get('/fornecedores/novo', function () {
     return view('fornecedores.create');
 })->name('fornecedores.create');
 
-Route::get('/clientes', function () {
-    return view('clientes.index');
-})->name('clientes.index');
+Route::get('/clientes', [ClienteController::class, 'index'])
+    ->name('clientes.index');
 
-Route::get('/clientes/novo', function () {
-    return view('clientes.create');
-})->name('clientes.create');
+Route::get('/clientes/novo', [ClienteController::class, 'create'])
+    ->name('clientes.create');
+
+Route::post('/clientes', [ClienteController::class, 'store'])
+    ->name('clientes.store');
 
 Route::get('/funcionarios', function () {
     return view('funcionarios.index');
@@ -80,4 +82,4 @@ Route::get('/funcionarios/novo', function () {
 
 Route::get('/relatorios', function () {
     return view('relatorios.index');
-})->name('relatorios.index'); 
+})->name('relatorios.index');

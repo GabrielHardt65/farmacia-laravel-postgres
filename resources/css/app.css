@@ -535,7 +535,7 @@ body {
     width: 300px;
 }
 
-.venda-valores > div {
+.venda-valores>div {
     display: flex;
     justify-content: space-between;
 
@@ -725,7 +725,7 @@ body {
     margin-left: auto;
 }
 
-.pagamento-valores > div {
+.pagamento-valores>div {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
@@ -848,6 +848,7 @@ body {
 }
 
 @media (max-width: 750px) {
+
     .pagamento-info,
     .pagamento-grid {
         grid-template-columns: 1fr;
@@ -942,7 +943,7 @@ body {
     border-top: 1px solid #e5e7ed;
 }
 
-.comprovante-resumo > div {
+.comprovante-resumo>div {
     display: flex;
     justify-content: space-between;
     padding: 9px 0;
@@ -1275,6 +1276,7 @@ body {
 }
 
 @media (max-width: 650px) {
+
     .compras-filtros,
     .compra-produto-grid {
         display: flex;
@@ -1953,5 +1955,79 @@ body {
     .receitas-lista-filtros {
         flex-direction: column;
         align-items: stretch;
+    }
+}
+
+.clientes-section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.clientes-section .section-header .btn-finalizar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.clientes-section .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.clientes-section .sale-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.clientes-section .sale-table th,
+.clientes-section .sale-table td {
+    padding: 13px 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7ed;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.clientes-section .sale-table th {
+    color: #666b78;
+    font-weight: 600;
+    background: #fafbfc;
+    white-space: nowrap;
+}
+
+.clientes-section .sale-table td {
+    color: #252936;
+}
+
+.clientes-section .sale-table td:nth-child(3),
+.clientes-section .sale-table td:nth-child(4),
+.clientes-section .sale-table td:nth-child(5) {
+    white-space: nowrap;
+}
+
+.clientes-section .sale-table tbody tr:hover:not(#nenhum-resultado) {
+    background: #f8f9fc;
+}
+
+.clientes-section .sale-table .empty-table {
+    text-align: center;
+    padding: 30px 14px;
+    color: #9296a2;
+}
+
+@media (max-width: 750px) {
+    .clientes-section .section-header {
+        align-items: stretch;
+    }
+
+    .clientes-section .section-header .btn-finalizar {
+        width: 100%;
     }
 }
