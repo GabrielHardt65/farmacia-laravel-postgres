@@ -16,7 +16,7 @@
             <p>Iniciar uma nova venda</p>
         </a>
 
-        <a href="{{ route('receitas.create') }}" class="home-card">
+        <a href="{{ route('receitas.index') }}" class="home-card">
             <h3>Receitas</h3>
             <p>Consultar receitas cadastradas</p>
         </a>

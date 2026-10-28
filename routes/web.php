@@ -18,6 +18,10 @@ Route::get('/receitas/nova', function () {
     return view('receitas.create');
 })->name('receitas.create');
 
+Route::get('/receitas', function () {
+    return view('receitas.index');
+})->name('receitas.index');
+
 Route::get('/pagamentos/novo', function () {
     return view('pagamentos.create');
 })->name('pagamentos.create');
