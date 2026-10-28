@@ -24,8 +24,7 @@
             <nav class="sidebar-menu">
                 <a href="{{ route('inicio') }}">Início</a>
                 <a href="{{ route('vendas.create') }}">Nova venda</a>
-                <a href="{{ route('receitas.create') }}">Receitas</a>
-                <a href="{{ route('compras.index') }}">Compras</a>
+                <a href="{{ route('receitas.index') }}">Receitas</a>                <a href="{{ route('compras.index') }}">Compras</a>
                 <a href="{{ route('produtos.index') }}">Produtos</a>
                 <a href="{{ route('categorias.index') }}">Categorias</a>
                 <a href="{{ route('fornecedores.index') }}">Fornecedores</a>

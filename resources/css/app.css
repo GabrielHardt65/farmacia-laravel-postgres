@@ -1897,3 +1897,61 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
+.receitas-lista-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.receitas-lista-section {
+    background: #ffffff;
+    border: 1px solid #e5e7ed;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.receitas-lista-filtros {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.receitas-lista-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.receitas-lista-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #363a46;
+}
+
+.receitas-lista-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #252936;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.receitas-lista-field input:focus {
+    border-color: #8b8f9c;
+}
+
+@media (max-width: 750px) {
+    .receitas-lista-filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
