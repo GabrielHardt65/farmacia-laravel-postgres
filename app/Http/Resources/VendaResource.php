@@ -17,7 +17,7 @@ class VendaResource extends JsonResource
             'desconto_aplicado' => (float) $this->desconto_aplicado,
             'id_forma_pagamento' => $this->id_forma_pagamento,
             'parcelas' => $this->parcelas,
-            'data_venda' => $this->created_at?->format('Y-m-d H:i:s'),
+            'data_venda' => $this->data_venda,
         ];
     }
 }

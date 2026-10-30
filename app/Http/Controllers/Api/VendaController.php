@@ -20,19 +20,17 @@ class VendaController extends Controller
 
         $venda->refresh();
 
-        $exigeReceita = $this->service->verificaExigeReceita($venda->id_venda);
+        $exigeReceita = $this->service->verificaExigeReceita(
+            $venda->id_venda
+        );
 
-        return (new VendaResource($venda))
-            ->additional([
-                'meta' => [
-                    'exige_receita' => $exigeReceita,
-                    'message' => $exigeReceita
-                        ? 'Venda finalizada. Medicamento controlado exige registro de receita.'
-                        : 'Venda finalizada com sucesso.',
-                ]
-            ]);
+        return (new VendaResource($venda))->additional([
+            'meta' => [
+                'exige_receita' => $exigeReceita,
+                'message' => 'Venda finalizada com sucesso.',
+            ],
+        ]);
     }
-
 
     public function show(Venda $venda)
     {
