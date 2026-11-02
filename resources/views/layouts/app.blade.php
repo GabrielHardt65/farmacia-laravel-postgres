@@ -24,15 +24,13 @@
             <nav class="sidebar-menu">
                 <a href="{{ route('inicio') }}">Início</a>
                 <a href="{{ route('vendas.create') }}">Nova venda</a>
-                <a href="#">Receitas</a>
-                <a href="#">Compras</a>
-                <a href="#">Produtos</a>
-                <a href="#">Categorias</a>
-                <a href="#">Fornecedores</a>
-                <a href="#">Clientes</a>
-                <a href="#">Funcionários</a>
-                <a href="#">Relatórios</a>
-            </nav>
+                <a href="{{ route('receitas.index') }}">Receitas</a>                <a href="{{ route('compras.index') }}">Compras</a>
+                <a href="{{ route('produtos.index') }}">Produtos</a>
+                <a href="{{ route('categorias.index') }}">Categorias</a>
+                <a href="{{ route('fornecedores.index') }}">Fornecedores</a>
+                <a href="{{ route('clientes.index') }}">Clientes</a>
+                <a href="{{ route('funcionarios.index') }}">Funcionários</a>
+                <a href="{{ route('relatorios.index') }}">Relatórios</a>            </nav>
 
         </aside>
 

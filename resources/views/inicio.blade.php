@@ -16,37 +16,37 @@
             <p>Iniciar uma nova venda</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('receitas.index') }}" class="home-card">
             <h3>Receitas</h3>
             <p>Consultar receitas cadastradas</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('compras.index') }}" class="home-card">
             <h3>Compras</h3>
             <p>Registrar entrada de produtos</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('produtos.index') }}" class="home-card">
             <h3>Produtos</h3>
             <p>Consultar e cadastrar produtos</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('categorias.index') }}" class="home-card">
             <h3>Cadastros</h3>
             <p>Categorias e fornecedores</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('clientes.index') }}" class="home-card">
             <h3>Clientes</h3>
             <p>Consultar e cadastrar clientes</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('funcionarios.index') }}" class="home-card">
             <h3>Funcionários</h3>
             <p>Gerenciar funcionários</p>
         </a>
 
-        <a href="#" class="home-card">
+        <a href="{{ route('relatorios.index') }}" class="home-card">
             <h3>Relatórios</h3>
             <p>Visualizar relatórios da farmácia</p>
         </a>
