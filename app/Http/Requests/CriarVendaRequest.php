@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CriarVendaRequest extends FormRequest
 {
@@ -17,12 +18,19 @@ class CriarVendaRequest extends FormRequest
             'id_funcionario' => [
                 'required',
                 'integer',
-                'exists:samaraferreira_bd.funcionarios,id_funcionario',
+                Rule::exists(
+                    'pgsql.samaraferreira_bd.funcionarios',
+                    'id_funcionario'
+                ),
             ],
+
             'id_cliente' => [
                 'nullable',
                 'integer',
-                'exists:samaraferreira_bd.clientes,id_cliente',
+                Rule::exists(
+                    'pgsql.samaraferreira_bd.clientes',
+                    'id_cliente'
+                ),
             ],
         ];
     }

@@ -40,7 +40,19 @@ class FluxoVendaService
                 ->where('id_lote', $dados['id_lote'])
                 ->first();
 
-            if (!$lote || $lote->id_produto != $produto->id_produto) {
+            if (!$produto) {
+                throw ValidationException::withMessages([
+                    'id_produto' => 'Produto não encontrado.',
+                ]);
+            }
+
+            if (!$lote) {
+                throw ValidationException::withMessages([
+                    'id_lote' => 'Lote não encontrado.',
+                ]);
+            }
+
+            if ((int) $lote->id_produto !== (int) $produto->id_produto) {
                 throw ValidationException::withMessages([
                     'id_lote' => 'O lote informado não pertence ao produto.',
                 ]);
@@ -48,17 +60,15 @@ class FluxoVendaService
 
             $preco = (float) $produto->preco_unitario;
             $quantidade = (int) $dados['quantidade'];
-            $subtotal = $preco * $quantidade;
 
-            return DB::table('samaraferreira_bd.itens_venda')
-                ->insertGetId([
-                    'id_venda' => $idVenda,
-                    'id_produto' => $produto->id_produto,
-                    'id_lote' => $lote->id_lote,
-                    'quantidade' => $quantidade,
-                    'preco_unitario_venda' => $preco,
-                    'subtotal' => $subtotal,
-                ], 'id_item_venda');
+           return DB::table('samaraferreira_bd.itens_venda')
+            ->insertGetId([
+                'id_venda' => $idVenda,
+                'id_produto' => $produto->id_produto,
+                'id_lote' => $lote->id_lote,
+                'quantidade' => $quantidade,
+                'preco_unitario_venda' => $preco,
+            ], 'id_item_venda');
         });
     }
 }
