@@ -20,7 +20,8 @@ class VendaService
             );
         } catch (\Exception $e) {
             throw ValidationException::withMessages([
-                'venda' => 'Erro ao processar a venda no banco: ' . $e->getMessage(),
+                'venda' => 'Erro ao processar a venda no banco: '
+                    . $e->getMessage(),
             ]);
         }
     }
@@ -34,4 +35,4 @@ class VendaService
 
         return (bool) ($resultado[0]->exige ?? false);
     }
-}   
+}
