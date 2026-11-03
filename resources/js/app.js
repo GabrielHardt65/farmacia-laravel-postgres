@@ -20,30 +20,65 @@ async function requisicao(url, metodo = 'GET', dados = null) {
     const opcoes = {
         method: metodo,
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json'
         }
     };
 
-    if (dados) {
+    if (dados !== null) {
         opcoes.body = JSON.stringify(dados);
     }
 
-    const resposta = await fetch(url, opcoes);
-    const resultado = await resposta.json().catch(() => ({}));
+    let resposta;
+
+    try {
+        resposta = await fetch(url, opcoes);
+    } catch {
+        throw new Error(
+            'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.'
+        );
+    }
+
+    const tipoConteudo = resposta.headers.get('content-type') || '';
+
+    let resultado = {};
+
+    if (tipoConteudo.includes('application/json')) {
+        resultado = await resposta.json().catch(() => ({}));
+    }
 
     if (!resposta.ok) {
         const erros = resultado.errors
-            ? Object.values(resultado.errors).flat().join(' ')
+            ? Object.values(resultado.errors)
+                .flat()
+                .filter(Boolean)
+                .join(' ')
             : resultado.message;
 
-        throw new Error(erros || 'Não foi possível realizar a operação.');
+        if (resposta.status === 401) {
+            throw new Error('Sua sessão expirou. Faça login novamente.');
+        }
+
+        if (resposta.status === 403) {
+            throw new Error('Você não tem permissão para realizar esta operação.');
+        }
+
+        if (resposta.status >= 500) {
+            throw new Error(
+                resultado.message ||
+                'O servidor apresentou um erro. Tente novamente mais tarde.'
+            );
+        }
+
+        throw new Error(
+            erros || `Não foi possível realizar a operação (HTTP ${resposta.status}).`
+        );
     }
 
     return resultado;
 }
 
-// TELA DE VENDA
+
 const paginaVenda = document.querySelector('#pagina-venda');
 
 if (paginaVenda) {
@@ -269,7 +304,7 @@ if (paginaVenda) {
     }
 }
 
-// TELA DE PAGAMENTO
+
 const paginaPagamento = document.querySelector('#pagina-pagamento');
 
 if (paginaPagamento) {
@@ -337,7 +372,7 @@ if (paginaPagamento) {
     });
 }
 
-// TELA DE COMPROVANTE
+
 const paginaComprovante = document.querySelector('#pagina-comprovante');
 
 if (paginaComprovante) {
