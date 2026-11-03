@@ -3,14 +3,25 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ReceitaController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ProdutoController;
+
 
 Route::get('/', function () {
     return view('inicio');
-})->name('inicio');
+})->middleware('auth')->name('inicio');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::middleware('guest')->group(function () {
+    Route::view('/login', 'auth.login')->name('login');
+
+    Route::post('/login', [LoginController::class, 'login'])
+        ->middleware('throttle:5,1')
+        ->name('login.authenticate');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
 Route::get('/vendas/nova', function () {
     return view('vendas.create');
@@ -33,9 +44,8 @@ Route::get('/comprovantes/venda', function () {
     return view('comprovantes.show');
 })->name('comprovantes.show');
 
-Route::get('/produtos', function () {
-    return view('produtos.index');
-})->name('produtos.index');
+Route::get('/produtos', [ProdutoController::class, 'index'])
+    ->name('produtos.index');
 
 Route::get('/produtos/novo', function () {
     return view('produtos.create');
