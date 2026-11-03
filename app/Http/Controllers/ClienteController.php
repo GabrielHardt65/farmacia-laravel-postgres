@@ -52,7 +52,7 @@ class ClienteController extends Controller
                         }
                     }
                 },
-                Rule::unique('samaraferreira_bd.clientes', 'cpf'),
+                Rule::unique('pgsql.samaraferreira_bd.clientes', 'cpf'),
             ],
             'data_nascimento' => ['required', 'date', 'after_or_equal:1900-01-01', 'before_or_equal:today'],
             'telefone' => ['required', 'string', 'max:15'],

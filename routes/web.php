@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ReceitaController;
 
 Route::get('/', function () {
     return view('inicio');
@@ -15,13 +16,14 @@ Route::get('/vendas/nova', function () {
     return view('vendas.create');
 })->name('vendas.create');
 
-Route::get('/receitas/nova', function () {
-    return view('receitas.create');
-})->name('receitas.create');
+Route::get('/receitas/nova', [ReceitaController::class, 'create'])
+    ->name('receitas.create');
 
-Route::get('/receitas', function () {
-    return view('receitas.index');
-})->name('receitas.index');
+Route::post('/receitas', [ReceitaController::class, 'store'])
+    ->name('receitas.store');
+
+Route::get('/receitas', [ReceitaController::class, 'index'])
+    ->name('receitas.index');
 
 Route::get('/pagamentos/novo', function () {
     return view('pagamentos.create');
