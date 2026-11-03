@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProdutoController;
 
 Route::get('/', function () {
     return view('inicio');
@@ -31,9 +32,8 @@ Route::get('/comprovantes/venda', function () {
     return view('comprovantes.show');
 })->name('comprovantes.show');
 
-Route::get('/produtos', function () {
-    return view('produtos.index');
-})->name('produtos.index');
+Route::get('/produtos', [ProdutoController::class, 'index'])
+    ->name('produtos.index');
 
 Route::get('/produtos/novo', function () {
     return view('produtos.create');
