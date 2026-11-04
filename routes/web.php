@@ -6,6 +6,8 @@ use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\RelatorioController;
 
 Route::get('/', function () {
     return view('inicio');
@@ -86,14 +88,14 @@ Route::get('/clientes/novo', [ClienteController::class, 'create'])
 Route::post('/clientes', [ClienteController::class, 'store'])
     ->name('clientes.store');
 
-Route::get('/funcionarios', function () {
-    return view('funcionarios.index');
-})->name('funcionarios.index');
+Route::get('/funcionarios', [FuncionarioController::class, 'index'])
+    ->name('funcionarios.index');
 
-Route::get('/funcionarios/novo', function () {
-    return view('funcionarios.create');
-})->name('funcionarios.create');
+Route::get('/funcionarios/novo', [FuncionarioController::class, 'create'])
+    ->name('funcionarios.create');
 
-Route::get('/relatorios', function () {
-    return view('relatorios.index');
-})->name('relatorios.index');
+Route::post('/funcionarios', [FuncionarioController::class, 'store'])
+    ->name('funcionarios.store');
+
+Route::get('/relatorios', [RelatorioController::class, 'index'])
+    ->name('relatorios.index');

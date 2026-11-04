@@ -25,12 +25,13 @@
                 <a href="{{ route('inicio') }}">Início</a>
                 <a href="{{ route('vendas.create') }}">Nova venda</a>
                 <a href="{{ route('compras.index') }}">Compras</a>
-                <a href="{{ route('receitas.index') }}">Receitas</a>   
+                <a href="{{ route('receitas.index') }}">Receitas</a>
                 <a href="{{ route('produtos.index') }}">Produtos</a>
                 <a href="{{ route('clientes.index') }}">Clientes</a>
                 <a href="{{ route('funcionarios.index') }}">Funcionários</a>
-                <a href="{{ route('relatorios.index') }}">Relatórios</a>            
+                <a href="{{ route('relatorios.index') }}">Relatórios</a>
             </nav>
+
         </aside>
 
         {{-- Área principal --}}

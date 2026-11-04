@@ -12,6 +12,20 @@ class Funcionario extends Authenticatable
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'nome',
+        'cpf',
+        'cargo',
+        'e_responsavel_tecnico',
+        'data_admissao',
+        'salario',
+        'telefone',
+        'email',
+        'id_supervisor',
+        'login',
+        'senha',
+    ];
+
     protected $hidden = [
         'senha',
     ];
@@ -19,6 +33,7 @@ class Funcionario extends Authenticatable
     protected $casts = [
         'e_responsavel_tecnico' => 'boolean',
         'data_admissao' => 'date',
+        'salario' => 'decimal:2',
     ];
 
     public function getAuthPasswordName()

@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'Funcionários - Sistema Farmácia')
@@ -6,7 +7,6 @@
 @section('content')
 
 <div class="funcionarios-container">
-
     <section class="funcionarios-section">
 
         <div class="section-header">
@@ -20,51 +20,60 @@
             </a>
         </div>
 
-        <div class="funcionarios-filtros">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <form action="{{ route('funcionarios.index') }}" method="GET"
+              class="funcionarios-filtros">
 
             <div class="funcionarios-field">
-                <label for="busca_funcionario">Buscar funcionário</label>
-                <input
-                    type="text"
-                    id="busca_funcionario"
-                    name="busca_funcionario"
-                    placeholder="Nome, CPF ou cargo"
-                >
+                <label for="busca">Buscar funcionário</label>
+                <input type="text" id="busca" name="busca"
+                       value="{{ $busca }}"
+                       placeholder="Nome, CPF ou cargo">
             </div>
 
-            <button type="button" class="btn-secondary">
-                Buscar
-            </button>
+            <button type="submit" class="btn-secondary">Buscar</button>
+        </form>
 
-        </div>
+        <table class="sale-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Cargo</th>
+                    <th>Telefone</th>
+                    <th>Login</th>
+                </tr>
+            </thead>
 
-        <div class="table-wrapper">
-
-            <table class="sale-table">
-                <thead>
+            <tbody>
+                @forelse ($funcionarios as $funcionario)
                     <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Cargo</th>
-                        <th>Telefone</th>
-                        <th>Ações</th>
+                        <td>{{ $funcionario->id_funcionario }}</td>
+                        <td>{{ $funcionario->nome }}</td>
+                        <td>{{ $funcionario->cpf }}</td>
+                        <td>{{ $funcionario->cargo }}</td>
+                        <td>{{ $funcionario->telefone ?? '-' }}</td>
+                        <td>{{ $funcionario->login }}</td>
                     </tr>
-                </thead>
-
-                <tbody>
+                @empty
                     <tr>
                         <td colspan="6" class="empty-table">
-                            Nenhum funcionário cadastrado.
+                            Nenhum funcionário encontrado.
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                @endforelse
+            </tbody>
+        </table>
 
-        </div>
+        {{ $funcionarios->links() }}
 
     </section>
-
 </div>
 
 @endsection
