@@ -310,6 +310,48 @@ const paginaPagamento = document.querySelector('#pagina-pagamento');
 if (paginaPagamento) {
     const venda = lerVenda();
     const mensagem = document.querySelector('#mensagem-pagamento');
+    const botaoFinalizar = document.querySelector('#finalizar-venda');
+const avisoReceitas = document.querySelector('#aviso-receitas');
+const listaReceitas = document.querySelector('#lista-receitas-pendentes');
+
+async function verificarReceitasPendentes() {
+    botaoFinalizar.disabled = true;
+
+    if (!venda?.id_venda || !venda.itens?.length) {
+        return;
+    }
+
+    try {
+        const resultado = await requisicao(
+            `${paginaPagamento.dataset.apiVendas}/${venda.id_venda}/receitas-pendentes`
+        );
+
+        listaReceitas.innerHTML = '';
+
+        if (resultado.quantidade_pendente > 0) {
+            resultado.itens.forEach(item => {
+                const linha = document.createElement('li');
+                linha.textContent = item.medicamento;
+                listaReceitas.appendChild(linha);
+            });
+
+            avisoReceitas.style.display = 'block';
+            mensagem.textContent =
+                'Cadastre as receitas pendentes antes de finalizar a venda.';
+            return;
+        }
+
+        avisoReceitas.style.display = 'none';
+        mensagem.textContent = '';
+        botaoFinalizar.disabled = false;
+
+    } catch (erro) {
+        mensagem.textContent = erro.message;
+        botaoFinalizar.disabled = true;
+    }
+}
+
+verificarReceitasPendentes();
 
     if (!venda || !venda.id_venda || !venda.itens?.length) {
         mensagem.textContent = 'Nenhuma venda válida foi encontrada. Volte e inicie uma venda.';

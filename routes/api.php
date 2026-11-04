@@ -17,9 +17,26 @@ Route::name('api.')->group(function () {
     Route::apiResource('produtos', ProdutoController::class);
 
     Route::post('/vendas', [FluxoVendaController::class, 'store']);
-    Route::post('/vendas/{venda}/itens', [FluxoVendaController::class, 'adicionarItem']);
-    Route::post('/vendas/{venda}/finalizar', [VendaController::class, 'finalizar']);
-    Route::get('/vendas/{venda}', [VendaController::class, 'show']);
+
+    Route::post('/vendas/{venda}/itens', [
+        FluxoVendaController::class,
+        'adicionarItem'
+    ]);
+
+    Route::get('/vendas/{venda}/receitas-pendentes', [
+        VendaController::class,
+        'receitasPendentes'
+    ]);
+
+    Route::post('/vendas/{venda}/finalizar', [
+        VendaController::class,
+        'finalizar'
+    ]);
+
+    Route::get('/vendas/{venda}', [
+        VendaController::class,
+        'show'
+    ]);
 
     Route::post('/compras', [CompraController::class, 'store']);
 });

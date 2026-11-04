@@ -35,4 +35,34 @@ class VendaService
 
         return (bool) ($resultado[0]->exige ?? false);
     }
+
+    public function receitasPendentes(int $idVenda)
+    {
+        return DB::table('samaraferreira_bd.itens_venda as iv')
+            ->join(
+                'samaraferreira_bd.produtos as p',
+                'p.id_produto',
+                '=',
+                'iv.id_produto'
+            )
+            ->where('iv.id_venda', $idVenda)
+            ->where(function ($query) {
+                $query->where('p.exige_receita', true)
+                    ->orWhere('p.tipo_controle', '<>', 'livre');
+            })
+            ->whereNotExists(function ($query) {
+                $query->selectRaw('1')
+                    ->from('samaraferreira_bd.receitas as r')
+                    ->whereColumn(
+                        'r.id_item_venda',
+                        'iv.id_item_venda'
+                    );
+            })
+            ->select(
+                'iv.id_item_venda',
+                'p.nome as medicamento',
+                'p.tipo_controle'
+            )
+            ->get();
+    }
 }

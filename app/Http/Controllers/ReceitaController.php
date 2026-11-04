@@ -4,22 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class ReceitaController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
         $itens = DB::table('samaraferreira_bd.itens_venda as iv')
-            ->join('samaraferreira_bd.produtos as p', 'p.id_produto', '=', 'iv.id_produto')
-            ->join('samaraferreira_bd.vendas as v', 'v.id_venda', '=', 'iv.id_venda')
-            ->join('samaraferreira_bd.clientes as c', 'c.id_cliente', '=', 'v.id_cliente')
-            ->where('p.tipo_controle', '<>', 'livre')
+            ->join(
+                'samaraferreira_bd.produtos as p',
+                'p.id_produto',
+                '=',
+                'iv.id_produto'
+            )
+            ->join(
+                'samaraferreira_bd.vendas as v',
+                'v.id_venda',
+                '=',
+                'iv.id_venda'
+            )
+            ->join(
+                'samaraferreira_bd.clientes as c',
+                'c.id_cliente',
+                '=',
+                'v.id_cliente'
+            )
+            ->where(function ($query) {
+                $query->where('p.exige_receita', true)
+                    ->orWhere('p.tipo_controle', '<>', 'livre');
+            })
+            ->when($request->filled('id_venda'), function ($query) use ($request) {
+                $query->where('iv.id_venda', $request->integer('id_venda'));
+            })
             ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
+                $query->selectRaw('1')
                     ->from('samaraferreira_bd.receitas as r')
-                    ->whereColumn('r.id_item_venda', 'iv.id_item_venda');
+                    ->whereColumn(
+                        'r.id_item_venda',
+                        'iv.id_item_venda'
+                    );
             })
             ->select(
                 'iv.id_item_venda',
@@ -42,23 +65,62 @@ class ReceitaController extends Controller
             'medico' => ['required', 'string', 'max:150'],
             'crm' => ['required', 'string', 'max:20'],
             'numero_receita' => ['nullable', 'string', 'max:30'],
-            'data_emissao' => ['required', 'date', 'before_or_equal:today'],
-            'validade_receita' => ['nullable', 'date', 'after_or_equal:data_emissao'],
+            'data_emissao' => [
+                'required',
+                'date',
+                'before_or_equal:today'
+            ],
+            'validade_receita' => [
+                'nullable',
+                'date',
+                'after_or_equal:data_emissao'
+            ],
             'tipo_receita' => [
                 'required',
-                Rule::in(['branca', 'controle_especial', 'azul', 'amarela']),
+                Rule::in([
+                    'branca',
+                    'controle_especial',
+                    'azul',
+                    'amarela'
+                ]),
             ],
         ]);
 
         try {
-            DB::transaction(function () use ($dados) {
+            $idVenda = DB::transaction(function () use ($dados) {
+
                 $item = DB::table('samaraferreira_bd.itens_venda as iv')
-                    ->join('samaraferreira_bd.produtos as p', 'p.id_produto', '=', 'iv.id_produto')
-                    ->join('samaraferreira_bd.vendas as v', 'v.id_venda', '=', 'iv.id_venda')
-                    ->join('samaraferreira_bd.clientes as c', 'c.id_cliente', '=', 'v.id_cliente')
-                    ->where('iv.id_item_venda', $dados['id_item_venda'])
-                    ->where('p.tipo_controle', '<>', 'livre')
-                    ->select('iv.id_item_venda', 'iv.id_venda', 'c.cpf')
+                    ->join(
+                        'samaraferreira_bd.produtos as p',
+                        'p.id_produto',
+                        '=',
+                        'iv.id_produto'
+                    )
+                    ->join(
+                        'samaraferreira_bd.vendas as v',
+                        'v.id_venda',
+                        '=',
+                        'iv.id_venda'
+                    )
+                    ->join(
+                        'samaraferreira_bd.clientes as c',
+                        'c.id_cliente',
+                        '=',
+                        'v.id_cliente'
+                    )
+                    ->where(
+                        'iv.id_item_venda',
+                        $dados['id_item_venda']
+                    )
+                    ->where(function ($query) {
+                        $query->where('p.exige_receita', true)
+                            ->orWhere('p.tipo_controle', '<>', 'livre');
+                    })
+                    ->select(
+                        'iv.id_item_venda',
+                        'iv.id_venda',
+                        'c.cpf'
+                    )
                     ->first();
 
                 if (!$item) {
@@ -67,8 +129,13 @@ class ReceitaController extends Controller
                     );
                 }
 
-                $receitaExistente = DB::table('samaraferreira_bd.receitas')
-                    ->where('id_item_venda', $item->id_item_venda)
+                $receitaExistente = DB::table(
+                    'samaraferreira_bd.receitas'
+                )
+                    ->where(
+                        'id_item_venda',
+                        $item->id_item_venda
+                    )
                     ->exists();
 
                 if ($receitaExistente) {
@@ -77,30 +144,44 @@ class ReceitaController extends Controller
                     );
                 }
 
-                $medico = DB::table('samaraferreira_bd.medicos')
+                $medico = DB::table(
+                    'samaraferreira_bd.medicos'
+                )
                     ->where('crm', $dados['crm'])
                     ->first();
 
                 if ($medico) {
-                    if (mb_strtolower($medico->nome) !== mb_strtolower($dados['medico'])) {
+
+                    if (
+                        mb_strtolower($medico->nome) !==
+                        mb_strtolower($dados['medico'])
+                    ) {
                         throw new \RuntimeException(
                             'O CRM informado já está cadastrado para outro nome.'
                         );
                     }
 
                     $idMedico = $medico->id_medico;
+
                 } else {
+
                     $novoMedico = DB::selectOne(
-                        'INSERT INTO samaraferreira_bd.medicos (nome, crm)
+                        'INSERT INTO samaraferreira_bd.medicos
+                         (nome, crm)
                          VALUES (?, ?)
                          RETURNING id_medico',
-                        [$dados['medico'], $dados['crm']]
+                        [
+                            $dados['medico'],
+                            $dados['crm']
+                        ]
                     );
 
                     $idMedico = $novoMedico->id_medico;
                 }
 
-                DB::table('samaraferreira_bd.receitas')->insert([
+                DB::table(
+                    'samaraferreira_bd.receitas'
+                )->insert([
                     'id_item_venda' => $item->id_item_venda,
                     'id_medico' => $idMedico,
                     'numero_receita' => $dados['numero_receita'] ?? null,
@@ -110,26 +191,64 @@ class ReceitaController extends Controller
                     'cpf_paciente' => $item->cpf,
                     'tipo_receita' => $dados['tipo_receita'],
                 ]);
+
+                return $item->id_venda;
             });
 
             return redirect()
-                ->route('receitas.index')
-                ->with('success', 'Receita cadastrada com sucesso.');
+                ->route('pagamentos.create')
+                ->with(
+                    'success',
+                    'Receita cadastrada com sucesso para a venda #' .
+                    $idVenda .
+                    '! Você pode continuar o pagamento.'
+                );
+
         } catch (\Throwable $e) {
+
             return back()
                 ->withInput()
-                ->withErrors(['receita' => $e->getMessage()]);
+                ->withErrors([
+                    'receita' => $e->getMessage()
+                ]);
         }
     }
 
     public function index(Request $request)
     {
-        $consulta = DB::table('samaraferreira_bd.receitas as r')
-            ->join('samaraferreira_bd.medicos as m', 'm.id_medico', '=', 'r.id_medico')
-            ->join('samaraferreira_bd.itens_venda as iv', 'iv.id_item_venda', '=', 'r.id_item_venda')
-            ->join('samaraferreira_bd.produtos as p', 'p.id_produto', '=', 'iv.id_produto')
-            ->join('samaraferreira_bd.vendas as v', 'v.id_venda', '=', 'r.id_venda')
-            ->join('samaraferreira_bd.clientes as c', 'c.id_cliente', '=', 'v.id_cliente')
+        $consulta = DB::table(
+            'samaraferreira_bd.receitas as r'
+        )
+            ->join(
+                'samaraferreira_bd.medicos as m',
+                'm.id_medico',
+                '=',
+                'r.id_medico'
+            )
+            ->join(
+                'samaraferreira_bd.itens_venda as iv',
+                'iv.id_item_venda',
+                '=',
+                'r.id_item_venda'
+            )
+            ->join(
+                'samaraferreira_bd.produtos as p',
+                'p.id_produto',
+                '=',
+                'iv.id_produto'
+            )
+            ->join(
+                'samaraferreira_bd.vendas as v',
+                'v.id_venda',
+                '=',
+                'r.id_venda'
+            )
+            ->join(
+                'samaraferreira_bd.clientes as c',
+                'c.id_cliente',
+                '=',
+                'v.id_cliente'
+            )
             ->select(
                 'r.id_receita',
                 'r.numero_receita',
@@ -142,17 +261,33 @@ class ReceitaController extends Controller
             );
 
         if ($request->filled('busca')) {
+
             $termo = $request->input('busca');
 
             $consulta->where(function ($query) use ($termo) {
-                $query->where('c.nome', 'ilike', "%{$termo}%")
-                    ->orWhere('r.cpf_paciente', 'ilike', "%{$termo}%")
-                    ->orWhere('r.numero_receita', 'ilike', "%{$termo}%");
+                $query->where(
+                    'c.nome',
+                    'ilike',
+                    "%{$termo}%"
+                )
+                    ->orWhere(
+                        'r.cpf_paciente',
+                        'ilike',
+                        "%{$termo}%"
+                    )
+                    ->orWhere(
+                        'r.numero_receita',
+                        'ilike',
+                        "%{$termo}%"
+                    );
             });
         }
 
         if ($request->filled('data')) {
-            $consulta->whereDate('r.data_emissao', $request->input('data'));
+            $consulta->whereDate(
+                'r.data_emissao',
+                $request->input('data')
+            );
         }
 
         $receitas = $consulta
@@ -160,6 +295,9 @@ class ReceitaController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return view('receitas.index', compact('receitas'));
+        return view(
+            'receitas.index',
+            compact('receitas')
+        );
     }
 }
