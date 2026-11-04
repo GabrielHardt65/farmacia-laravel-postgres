@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,18 @@ Route::get('/produtos/novo', [ProdutoController::class, 'create'])
 
 Route::post('/produtos', [ProdutoController::class, 'store'])
     ->name('produtos.store');
+
+Route::get('/produtos/{produto}/editar', [ProdutoController::class, 'edit'])
+    ->name('produtos.edit');
+
+Route::put('/produtos/{produto}', [ProdutoController::class, 'update'])
+    ->name('produtos.update');
+
+Route::delete('/produtos/{produto}', [ProdutoController::class, 'destroy'])
+    ->name('produtos.destroy');
+
+Route::get('/produtos/{produto}', [ProdutoController::class, 'show'])
+    ->name('produtos.show');
 
 Route::get('/compras', [CompraController::class, 'index'])
     ->name('compras.index');

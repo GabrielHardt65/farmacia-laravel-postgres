@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'Produtos - Sistema Farmácia')
@@ -22,8 +23,6 @@
         padding: 26px;
         box-shadow: 0 5px 20px rgba(30, 32, 45, 0.04);
     }
-
-    /* CABEÇALHO */
 
     .produtos-cabecalho {
         display: flex;
@@ -65,8 +64,6 @@
     .produtos-btn-novo:hover {
         background: #c82d6d;
     }
-
-    /* PESQUISA */
 
     .produtos-filtros {
         display: flex;
@@ -123,8 +120,6 @@
         background: #c52e6d;
     }
 
-    /* TABELA */
-
     .produtos-tabela-wrapper {
         width: 100%;
         overflow-x: auto;
@@ -168,8 +163,6 @@
     .produtos-tabela tbody tr:hover {
         background: #fff8fb;
     }
-
-    /* INFORMAÇÕES DO PRODUTO */
 
     .produto-codigo {
         color: #d83e80;
@@ -220,8 +213,6 @@
         font-weight: 700;
     }
 
-    /* SEM PRODUTOS */
-
     .produtos-vazio {
         padding: 48px 20px !important;
         color: #858999 !important;
@@ -235,7 +226,57 @@
         font-size: 12px;
     }
 
-    /* RESPONSIVIDADE */
+    .produtos-acoes {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .produtos-acoes form {
+        margin: 0;
+    }
+
+    .produto-btn-acao {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 11px;
+        border: 1px solid #f1b8d0;
+        border-radius: 8px;
+        background: #fff0f6;
+        color: #cc3676;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: inherit;
+        text-decoration: none;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .produto-btn-acao:hover {
+        background: #fbdde9;
+    }
+
+    .produto-btn-acao.excluir {
+        background: #fff0f1;
+        border-color: #f3c0c6;
+        color: #bf3449;
+    }
+
+    .produtos-alerta {
+        padding: 13px 16px;
+        margin-bottom: 16px;
+        border-radius: 9px;
+        background: #e9f8ee;
+        color: #25844a;
+        font-size: 13px;
+    }
+
+    .produtos-alerta.erro {
+        background: #fff0f1;
+        color: #bf3449;
+    }
 
     @media (max-width: 700px) {
         .produtos-section {
@@ -259,13 +300,9 @@
 </style>
 
 <div class="produtos-container">
-
     <section class="produtos-section">
 
-        {{-- CABEÇALHO --}}
-
         <div class="produtos-cabecalho">
-
             <div>
                 <h2>Produtos</h2>
                 <p>
@@ -280,22 +317,15 @@
             >
                 + Novo Produto
             </a>
-
         </div>
-
-        {{-- BUSCA --}}
 
         <form
             action="{{ route('produtos.index') }}"
             method="GET"
             class="produtos-filtros"
         >
-
             <div class="produtos-field">
-
-                <label for="busca_produto">
-                    Buscar produto
-                </label>
+                <label for="busca_produto">Buscar produto</label>
 
                 <input
                     type="text"
@@ -305,24 +335,27 @@
                     placeholder="Nome, código ou código de barras"
                     autocomplete="off"
                 >
-
             </div>
 
-            <button
-                type="submit"
-                class="produtos-btn-buscar"
-            >
+            <button type="submit" class="produtos-btn-buscar">
                 Buscar
             </button>
-
         </form>
 
-        {{-- TABELA DE PRODUTOS --}}
+        @if(session('success'))
+            <div class="produtos-alerta">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="produtos-alerta erro">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <div class="produtos-tabela-wrapper">
-
             <table class="produtos-tabela">
-
                 <thead>
                     <tr>
                         <th>Código</th>
@@ -330,15 +363,13 @@
                         <th>Tipo de controle</th>
                         <th>Estoque</th>
                         <th>Preço</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-
                     @forelse($produtos ?? [] as $produto)
-
                         <tr>
-
                             <td>
                                 <span class="produto-codigo">
                                     #{{ $produto->id_produto }}
@@ -377,29 +408,54 @@
                                 </span>
                             </td>
 
+                            <td>
+                                <div class="produtos-acoes">
+                                    <a
+                                        href="{{ route('produtos.show', $produto->id_produto) }}"
+                                        class="produto-btn-acao"
+                                    >
+                                        Visualizar
+                                    </a>
+
+                                    <a
+                                        href="{{ route('produtos.edit', $produto->id_produto) }}"
+                                        class="produto-btn-acao"
+                                    >
+                                        Editar
+                                    </a>
+
+                                    <form
+                                        action="{{ route('produtos.destroy', $produto->id_produto) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Deseja realmente excluir este produto?');"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="produto-btn-acao excluir"
+                                        >
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
-
                     @empty
-
                         <tr>
-                            <td colspan="5" class="produtos-vazio">
-
+                            <td colspan="6" class="produtos-vazio">
                                 @if(!empty($busca))
                                     Nenhum produto encontrado para
                                     "{{ $busca }}".
                                 @else
                                     Nenhum produto cadastrado.
                                 @endif
-
                             </td>
                         </tr>
-
                     @endforelse
-
                 </tbody>
-
             </table>
-
         </div>
 
         <div class="produtos-rodape">
@@ -408,7 +464,6 @@
         </div>
 
     </section>
-
 </div>
 
 @endsection

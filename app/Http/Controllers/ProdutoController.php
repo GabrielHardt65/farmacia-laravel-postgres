@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Validation\Rule;
 
 class ProdutoController extends Controller
 {
@@ -83,8 +85,6 @@ class ProdutoController extends Controller
             'unidade_medida' => 'nullable|string|max:50',
             'codigo_barras' => 'nullable|string|max:100|unique:pgsql.samaraferreira_bd.produtos,codigo_barras',
             'tipo_controle' => 'required|in:livre,antibiotico,tarja_vermelha,tarja_preta',
-
-            // Dados do lote e estoque inicial
             'id_fornecedor' => 'required|integer|exists:pgsql.samaraferreira_bd.fornecedores,id_fornecedor',
             'numero_lote' => 'required|string|max:100',
             'data_fabricacao' => 'required|date',
@@ -94,8 +94,6 @@ class ProdutoController extends Controller
         ]);
 
         DB::transaction(function () use ($dados) {
-
-            // Separa os dados do produto
             $dadosProduto = collect($dados)->only([
                 'nome',
                 'descricao',
@@ -110,10 +108,8 @@ class ProdutoController extends Controller
                 'tipo_controle',
             ])->all();
 
-            // Cadastra o produto
             $produto = Produto::create($dadosProduto);
 
-            // Cadastra o lote e o estoque inicial
             DB::table('samaraferreira_bd.lotes')->insert([
                 'id_produto' => $produto->id_produto,
                 'id_fornecedor' => $dados['id_fornecedor'],
@@ -132,5 +128,113 @@ class ProdutoController extends Controller
                 'success',
                 'Produto e estoque inicial cadastrados com sucesso!'
             );
+    }
+
+    public function show(int $produto)
+    {
+        $produto = Produto::findOrFail($produto);
+
+        $lotes = DB::table('samaraferreira_bd.lotes')
+            ->where('id_produto', $produto->id_produto)
+            ->orderBy('data_validade')
+            ->get();
+
+        $categoria = DB::table('samaraferreira_bd.categorias')
+            ->where('id_categoria', $produto->id_categoria)
+            ->value('nome');
+
+        $fabricante = DB::table('samaraferreira_bd.fabricantes')
+            ->where('id_fabricante', $produto->id_fabricante)
+            ->value('nome');
+
+        return view('produtos.show', compact(
+            'produto',
+            'lotes',
+            'categoria',
+            'fabricante'
+        ));
+    }
+
+    public function edit(int $produto)
+    {
+        $produto = Produto::findOrFail($produto);
+
+        $categorias = DB::table('samaraferreira_bd.categorias')
+            ->orderBy('nome')
+            ->get();
+
+        $fabricantes = DB::table('samaraferreira_bd.fabricantes')
+            ->orderBy('nome')
+            ->get();
+
+        return view('produtos.edit', compact(
+            'produto',
+            'categorias',
+            'fabricantes'
+        ));
+    }
+
+    public function update(Request $request, int $produto)
+    {
+        $produto = Produto::findOrFail($produto);
+
+        $dados = $request->validate([
+            'nome' => 'required|string|max:255',
+            'descricao' => 'nullable|string',
+            'id_categoria' => 'required|integer|exists:pgsql.samaraferreira_bd.categorias,id_categoria',
+            'id_fabricante' => 'required|integer|exists:pgsql.samaraferreira_bd.fabricantes,id_fabricante',
+            'principio_ativo' => 'nullable|string|max:255',
+            'forma_farmaceutica' => 'nullable|string|max:255',
+            'exige_receita' => 'required|boolean',
+            'preco_unitario' => 'required|numeric|min:0',
+            'unidade_medida' => 'nullable|string|max:50',
+            'codigo_barras' => [
+                'nullable',
+                'string',
+                'max:100',
+                Rule::unique('pgsql.samaraferreira_bd.produtos', 'codigo_barras')
+                    ->ignore($produto->id_produto, 'id_produto')
+            ],
+            'tipo_controle' => 'required|in:livre,antibiotico,tarja_vermelha,tarja_preta'
+        ]);
+
+        $produto->update($dados);
+
+        return redirect()
+            ->route('produtos.index')
+            ->with('success', 'Produto atualizado com sucesso!');
+    }
+
+    public function destroy(int $produto)
+    {
+        $produto = Produto::findOrFail($produto);
+
+        $possuiLotes = DB::table('samaraferreira_bd.lotes')
+            ->where('id_produto', $produto->id_produto)
+            ->exists();
+
+        if ($possuiLotes) {
+            return redirect()
+                ->route('produtos.index')
+                ->with(
+                    'error',
+                    'Este produto possui lotes vinculados e não pode ser excluído.'
+                );
+        }
+
+        try {
+            $produto->delete();
+        } catch (QueryException $erro) {
+            return redirect()
+                ->route('produtos.index')
+                ->with(
+                    'error',
+                    'Não é possível excluir este produto porque existem registros vinculados.'
+                );
+        }
+
+        return redirect()
+            ->route('produtos.index')
+            ->with('success', 'Produto excluído com sucesso!');
     }
 }
