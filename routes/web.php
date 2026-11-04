@@ -49,11 +49,12 @@ Route::get('/comprovantes/venda', function () {
 Route::get('/produtos', [ProdutoController::class, 'index'])
     ->name('produtos.index');
 
-Route::get('/produtos/novo', function () {
-    return view('produtos.create');
-})->name('produtos.create');
+Route::get('/produtos/novo', [ProdutoController::class, 'create'])
+    ->name('produtos.create');
 
-// Compras e entradas de estoque
+Route::post('/produtos', [ProdutoController::class, 'store'])
+    ->name('produtos.store');
+
 Route::get('/compras', [CompraController::class, 'index'])
     ->name('compras.index');
 

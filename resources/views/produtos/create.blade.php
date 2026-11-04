@@ -24,8 +24,6 @@
         box-shadow: 0 5px 20px rgba(30, 32, 45, 0.04);
     }
 
-    /* CABEÇALHO */
-
     .produto-form-cabecalho {
         margin-bottom: 28px;
     }
@@ -43,7 +41,15 @@
         font-size: 13px;
     }
 
-    /* FORMULÁRIO */
+    .produto-form-subtitulo {
+        grid-column: 1 / -1;
+        margin-top: 6px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #edf0f5;
+        color: #d83e80;
+        font-size: 15px;
+        font-weight: 800;
+    }
 
     .produto-form-grid {
         display: grid;
@@ -106,8 +112,6 @@
         grid-column: 1 / -1;
     }
 
-    /* AÇÕES */
-
     .produto-form-actions {
         display: flex;
         justify-content: flex-end;
@@ -157,6 +161,27 @@
         background: #c82d6d;
     }
 
+    .produto-alerta {
+        padding: 14px 18px;
+        margin-bottom: 22px;
+        border-radius: 9px;
+        background: #fff0f3;
+        border: 1px solid #f4b5c5;
+        color: #a52b52;
+        font-size: 13px;
+    }
+
+    .produto-alerta ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+    }
+
+    .produto-erro {
+        color: #c62850;
+        font-size: 11px;
+        margin-top: 5px;
+    }
+
     .produto-aviso {
         margin-top: 16px;
         color: #858999;
@@ -173,7 +198,8 @@
             gap: 18px;
         }
 
-        .produto-field-full {
+        .produto-field-full,
+        .produto-form-subtitulo {
             grid-column: auto;
         }
 
@@ -192,148 +218,325 @@
 
     <section class="produto-form-section">
 
-        {{-- CABEÇALHO --}}
-
         <div class="produto-form-cabecalho">
             <h2>Cadastro de Produto</h2>
             <p>Preencha os dados para cadastrar um novo produto.</p>
         </div>
 
-        <div class="produto-form-grid">
+        @if ($errors->any())
+            <div class="produto-alerta">
+                <strong>Não foi possível salvar o produto.</strong>
+                <ul>
+                    @foreach ($errors->all() as $erro)
+                        <li>{{ $erro }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            {{-- NOME --}}
+        <form action="{{ route('produtos.store') }}" method="POST">
 
-            <div class="produto-field">
-                <label for="nome">Nome do produto</label>
-                <input
-                    type="text"
-                    id="nome"
-                    name="nome"
-                    placeholder="Ex.: Dipirona 1g"
-                    autocomplete="off"
+            @csrf
+
+            <div class="produto-form-grid">
+
+                <div class="produto-form-subtitulo">
+                    Informações do Produto
+                </div>
+
+                {{-- NOME --}}
+
+                <div class="produto-field">
+                    <label for="nome">Nome do produto *</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        value="{{ old('nome') }}"
+                        placeholder="Ex.: Dipirona 1g"
+                        maxlength="255"
+                        required
+                    >
+                    @error('nome')
+                        <span class="produto-erro">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                {{-- CÓDIGO DE BARRAS --}}
+
+                <div class="produto-field">
+                    <label for="codigo_barras">Código de barras</label>
+                    <input
+                        type="text"
+                        id="codigo_barras"
+                        name="codigo_barras"
+                        value="{{ old('codigo_barras') }}"
+                        placeholder="Digite o código de barras"
+                        maxlength="100"
+                    >
+                </div>
+
+                {{-- CATEGORIA --}}
+
+                <div class="produto-field">
+                    <label for="id_categoria">Categoria *</label>
+                    <select id="id_categoria" name="id_categoria" required>
+                        <option value="">Selecione uma categoria</option>
+
+                        @foreach ($categorias as $categoria)
+                            <option
+                                value="{{ $categoria->id_categoria }}"
+                                @selected(old('id_categoria') == $categoria->id_categoria)
+                            >
+                                {{ $categoria->nome }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- FABRICANTE --}}
+
+                <div class="produto-field">
+                    <label for="id_fabricante">Laboratório / Fabricante *</label>
+                    <select id="id_fabricante" name="id_fabricante" required>
+                        <option value="">Selecione um fabricante</option>
+
+                        @foreach ($fabricantes as $fabricante)
+                            <option
+                                value="{{ $fabricante->id_fabricante }}"
+                                @selected(old('id_fabricante') == $fabricante->id_fabricante)
+                            >
+                                {{ $fabricante->nome }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- TIPO DE CONTROLE --}}
+
+                <div class="produto-field">
+                    <label for="tipo_controle">Tipo de controle *</label>
+                    <select id="tipo_controle" name="tipo_controle" required>
+                        <option value="livre" @selected(old('tipo_controle', 'livre') == 'livre')>
+                            Venda livre
+                        </option>
+                        <option value="antibiotico" @selected(old('tipo_controle') == 'antibiotico')>
+                            Antibiótico
+                        </option>
+                        <option value="tarja_vermelha" @selected(old('tipo_controle') == 'tarja_vermelha')>
+                            Tarja vermelha
+                        </option>
+                        <option value="tarja_preta" @selected(old('tipo_controle') == 'tarja_preta')>
+                            Tarja preta
+                        </option>
+                    </select>
+                </div>
+
+                {{-- EXIGE RECEITA --}}
+
+                <div class="produto-field">
+                    <label for="exige_receita">Exige receita médica? *</label>
+                    <select id="exige_receita" name="exige_receita" required>
+                        <option value="0" @selected(old('exige_receita', '0') == '0')>
+                            Não
+                        </option>
+                        <option value="1" @selected(old('exige_receita') == '1')>
+                            Sim
+                        </option>
+                    </select>
+                </div>
+
+                {{-- PREÇO DE VENDA --}}
+
+                <div class="produto-field">
+                    <label for="preco_unitario">Preço de venda (R$) *</label>
+                    <input
+                        type="number"
+                        id="preco_unitario"
+                        name="preco_unitario"
+                        value="{{ old('preco_unitario') }}"
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        required
+                    >
+                </div>
+
+                {{-- PRINCÍPIO ATIVO --}}
+
+                <div class="produto-field">
+                    <label for="principio_ativo">Princípio ativo</label>
+                    <input
+                        type="text"
+                        id="principio_ativo"
+                        name="principio_ativo"
+                        value="{{ old('principio_ativo') }}"
+                        placeholder="Ex.: Dipirona sódica"
+                        maxlength="255"
+                    >
+                </div>
+
+                {{-- FORMA FARMACÊUTICA --}}
+
+                <div class="produto-field">
+                    <label for="forma_farmaceutica">Forma farmacêutica</label>
+                    <input
+                        type="text"
+                        id="forma_farmaceutica"
+                        name="forma_farmaceutica"
+                        value="{{ old('forma_farmaceutica') }}"
+                        placeholder="Ex.: Comprimido, solução, cápsula"
+                        maxlength="255"
+                    >
+                </div>
+
+                {{-- UNIDADE DE MEDIDA --}}
+
+                <div class="produto-field">
+                    <label for="unidade_medida">Unidade de medida</label>
+                    <input
+                        type="text"
+                        id="unidade_medida"
+                        name="unidade_medida"
+                        value="{{ old('unidade_medida') }}"
+                        placeholder="Ex.: Unidade, caixa, frasco"
+                        maxlength="50"
+                    >
+                </div>
+
+                {{-- DESCRIÇÃO --}}
+
+                <div class="produto-field produto-field-full">
+                    <label for="descricao">Descrição</label>
+                    <textarea
+                        id="descricao"
+                        name="descricao"
+                        rows="4"
+                        placeholder="Informações adicionais sobre o produto"
+                    >{{ old('descricao') }}</textarea>
+                </div>
+
+                <div class="produto-form-subtitulo">
+                    Lote e Estoque Inicial
+                </div>
+
+                {{-- FORNECEDOR --}}
+
+                <div class="produto-field">
+                    <label for="id_fornecedor">Fornecedor *</label>
+                    <select id="id_fornecedor" name="id_fornecedor" required>
+                        <option value="">Selecione um fornecedor</option>
+
+                        @foreach ($fornecedores as $fornecedor)
+                            <option
+                                value="{{ $fornecedor->id_fornecedor }}"
+                                @selected(old('id_fornecedor') == $fornecedor->id_fornecedor)
+                            >
+                                {{ $fornecedor->nome }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- NÚMERO DO LOTE --}}
+
+                <div class="produto-field">
+                    <label for="numero_lote">Número do lote *</label>
+                    <input
+                        type="text"
+                        id="numero_lote"
+                        name="numero_lote"
+                        value="{{ old('numero_lote') }}"
+                        placeholder="Ex.: LT2026001"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                {{-- DATA DE FABRICAÇÃO --}}
+
+                <div class="produto-field">
+                    <label for="data_fabricacao">Data de fabricação *</label>
+                    <input
+                        type="date"
+                        id="data_fabricacao"
+                        name="data_fabricacao"
+                        value="{{ old('data_fabricacao') }}"
+                        required
+                    >
+                </div>
+
+                {{-- DATA DE VALIDADE --}}
+
+                <div class="produto-field">
+                    <label for="data_validade">Data de validade *</label>
+                    <input
+                        type="date"
+                        id="data_validade"
+                        name="data_validade"
+                        value="{{ old('data_validade') }}"
+                        required
+                    >
+                </div>
+
+                {{-- QUANTIDADE EM ESTOQUE --}}
+
+                <div class="produto-field">
+                    <label for="estoque">Quantidade em estoque *</label>
+                    <input
+                        type="number"
+                        id="estoque"
+                        name="estoque"
+                        value="{{ old('estoque') }}"
+                        min="0"
+                        step="1"
+                        placeholder="0"
+                        required
+                    >
+                </div>
+
+                {{-- PREÇO DE CUSTO --}}
+
+                <div class="produto-field">
+                    <label for="preco_custo">Preço de custo (R$) *</label>
+                    <input
+                        type="number"
+                        id="preco_custo"
+                        name="preco_custo"
+                        value="{{ old('preco_custo') }}"
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="produto-form-actions">
+
+                <a
+                    href="{{ route('produtos.index') }}"
+                    class="produto-btn-cancelar"
                 >
-            </div>
+                    Cancelar
+                </a>
 
-            {{-- CÓDIGO DE BARRAS --}}
-
-            <div class="produto-field">
-                <label for="codigo_barras">Código de barras</label>
-                <input
-                    type="text"
-                    id="codigo_barras"
-                    name="codigo_barras"
-                    placeholder="Digite o código de barras"
-                    autocomplete="off"
+                <button
+                    type="submit"
+                    class="produto-btn-salvar"
+                    id="salvar-produto"
                 >
+                    Salvar Produto
+                </button>
+
             </div>
 
-            {{-- TIPO DE VENDA --}}
+        </form>
 
-            <div class="produto-field">
-                <label for="tipo_venda">Tipo de venda</label>
-                <select id="tipo_venda" name="tipo_venda">
-                    <option value="">Selecione o tipo de venda</option>
-                    <option value="livre">Venda livre</option>
-                    <option value="prescricao">Venda sob prescrição</option>
-                </select>
-            </div>
-
-            {{-- LABORATÓRIO --}}
-
-            <div class="produto-field">
-                <label for="laboratorio">Laboratório</label>
-                <input
-                    type="text"
-                    id="laboratorio"
-                    name="laboratorio"
-                    placeholder="Ex.: EMS, Medley, Neo Química"
-                    autocomplete="off"
-                >
-            </div>
-
-            {{-- PREÇO --}}
-
-            <div class="produto-field">
-                <label for="preco">Preço de venda</label>
-                <input
-                    type="number"
-                    id="preco"
-                    name="preco"
-                    step="0.01"
-                    min="0"
-                    placeholder="0,00"
-                >
-            </div>
-
-            {{-- ESTOQUE --}}
-
-            <div class="produto-field">
-                <label for="estoque">Quantidade em estoque</label>
-                <input
-                    type="number"
-                    id="estoque"
-                    name="estoque"
-                    min="0"
-                    step="1"
-                    placeholder="0"
-                >
-            </div>
-
-            {{-- VALIDADE --}}
-
-            <div class="produto-field">
-                <label for="validade">Data de validade</label>
-                <input
-                    type="date"
-                    id="validade"
-                    name="validade"
-                >
-            </div>
-
-            {{-- CONTROLADO --}}
-
-            <div class="produto-field">
-                <label for="controlado">Medicamento controlado</label>
-                <select id="controlado" name="controlado">
-                    <option value="nao">Não</option>
-                    <option value="sim">Sim</option>
-                </select>
-            </div>
-
-            {{-- DESCRIÇÃO --}}
-
-            <div class="produto-field produto-field-full">
-                <label for="descricao">Descrição</label>
-                <textarea
-                    id="descricao"
-                    name="descricao"
-                    rows="4"
-                    placeholder="Informações adicionais sobre o produto"
-                ></textarea>
-            </div>
-
-        </div>
-
-        {{-- BOTÕES --}}
-
-        <div class="produto-form-actions">
-
-            <a
-                href="{{ route('produtos.index') }}"
-                class="produto-btn-cancelar"
-            >
-                Cancelar
-            </a>
-
-            <button
-                type="button"
-                class="produto-btn-salvar"
-                id="salvar-produto"
-            >
-                Salvar Produto
-            </button>
-
-        </div>
+        <p class="produto-aviso">
+            * Campos obrigatórios. O estoque inicial será registrado em um lote vinculado ao produto.
+        </p>
 
     </section>
 
