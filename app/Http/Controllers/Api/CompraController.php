@@ -9,9 +9,12 @@ use Illuminate\Http\JsonResponse;
 
 class CompraController extends Controller
 {
-    public function __construct(
-    private CompraService $service
-    ) {}
+    private CompraService $service;
+
+    public function __construct(CompraService $service)
+    {
+        $this->service = $service;
+    }
 
     public function store(CompraRequest $request): JsonResponse
     {

@@ -29,7 +29,7 @@ class CompraRequest extends FormRequest
             'numero_lote' => [
                 'required',
                 'string',
-                'max:100',
+                'max:30',
             ],
 
             'data_fabricacao' => [
