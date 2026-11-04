@@ -11,14 +11,14 @@ class VendaService
     {
         try {
             DB::statement(
-                "CALL samaraferreira_bd.sp_finalizar_venda(?, ?, ?)",
+                'CALL samaraferreira_bd.sp_finalizar_venda(?, ?, ?)',
                 [
                     $idVenda,
                     $dados['id_forma_pagamento'],
                     $dados['parcelas'] ?? 1,
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw ValidationException::withMessages([
                 'venda' => 'Erro ao processar a venda no banco: '
                     . $e->getMessage(),
@@ -29,7 +29,7 @@ class VendaService
     public function verificaExigeReceita(int $idVenda): bool
     {
         $resultado = DB::select(
-            "SELECT samaraferreira_bd.fn_venda_exige_receita(?) as exige",
+            'SELECT samaraferreira_bd.fn_venda_exige_receita(?) AS exige',
             [$idVenda]
         );
 

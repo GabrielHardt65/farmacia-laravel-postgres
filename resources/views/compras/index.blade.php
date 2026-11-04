@@ -1,79 +1,73 @@
 @extends('layouts.app')
 
-@section('title', 'Compras - Sistema Farmácia')
-@section('page-title', 'Compras')
+@section('title', 'Entradas de Estoque - Sistema Farmácia')
+@section('page-title', 'Entradas de Estoque')
 
 @section('content')
 
 <div class="compras-container">
-
     <section class="compras-section">
 
         <div class="section-header">
             <div>
-                <h2>Compras</h2>
-                <p>Consulte e registre as entradas de produtos da farmácia.</p>
+                <h2>Entradas de Estoque</h2>
+                <p>Consulte os lotes e registre produtos recebidos pela farmácia.</p>
             </div>
 
             <a href="{{ route('compras.create') }}" class="btn-finalizar">
-                Nova Compra
+                Nova Entrada
             </a>
         </div>
 
-        <div class="compras-filtros">
-
-            <div class="compras-field">
-                <label for="busca_compra">Buscar compra</label>
-                <input
-                    type="text"
-                    id="busca_compra"
-                    name="busca_compra"
-                    placeholder="Fornecedor ou número da compra"
-                >
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
-
-            <div class="compras-field compras-data">
-                <label for="data_compra">Data</label>
-                <input
-                    type="date"
-                    id="data_compra"
-                    name="data_compra"
-                >
-            </div>
-
-            <button type="button" class="btn-secondary">
-                Buscar
-            </button>
-
-        </div>
+        @endif
 
         <div class="table-wrapper">
-
             <table class="sale-table">
                 <thead>
                     <tr>
                         <th>Nº</th>
-                        <th>Data</th>
+                        <th>Lote</th>
+                        <th>Produto</th>
                         <th>Fornecedor</th>
-                        <th>Itens</th>
-                        <th>Valor Total</th>
-                        <th>Ações</th>
+                        <th>Fabricação</th>
+                        <th>Validade</th>
+                        <th>Recebido</th>
+                        <th>Estoque atual</th>
+                        <th>Custo unitário</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td colspan="6" class="empty-table">
-                            Nenhuma compra registrada.
-                        </td>
-                    </tr>
+                    @forelse ($lotes as $lote)
+                        <tr>
+                            <td>{{ $lote->id_lote }}</td>
+                            <td>{{ $lote->numero_lote }}</td>
+                            <td>{{ $lote->produto_nome }}</td>
+                            <td>{{ $lote->fornecedor_nome }}</td>
+                            <td>{{ \Carbon\Carbon::parse($lote->data_fabricacao)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($lote->data_validade)->format('d/m/Y') }}</td>
+                            <td>{{ $lote->quantidade_recebida }}</td>
+                            <td>{{ $lote->quantidade_atual }}</td>
+                            <td>R$ {{ number_format((float) $lote->preco_custo, 2, ',', '.') }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="empty-table">
+                                Nenhuma entrada de estoque registrada.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
-
         </div>
 
-    </section>
+        {{ $lotes->links() }}
 
+    </section>
 </div>
 
 @endsection

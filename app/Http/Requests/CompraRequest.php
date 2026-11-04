@@ -17,13 +17,13 @@ class CompraRequest extends FormRequest
             'id_produto' => [
                 'required',
                 'integer',
-                'exists:samaraferreira_bd.produtos,id_produto',
+                'exists:pgsql.samaraferreira_bd.produtos,id_produto',
             ],
 
             'id_fornecedor' => [
                 'required',
                 'integer',
-                'exists:samaraferreira_bd.fornecedores,id_fornecedor',
+                'exists:pgsql.samaraferreira_bd.fornecedores,id_fornecedor',
             ],
 
             'numero_lote' => [

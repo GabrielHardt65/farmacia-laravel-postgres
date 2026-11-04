@@ -5,7 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProdutoController;
-
+use App\Http\Controllers\CompraController;
 
 Route::get('/', function () {
     return view('inicio');
@@ -51,13 +51,15 @@ Route::get('/produtos/novo', function () {
     return view('produtos.create');
 })->name('produtos.create');
 
-Route::get('/compras', function () {
-    return view('compras.index');
-})->name('compras.index');
+// Compras e entradas de estoque
+Route::get('/compras', [CompraController::class, 'index'])
+    ->name('compras.index');
 
-Route::get('/compras/nova', function () {
-    return view('compras.create');
-})->name('compras.create');
+Route::get('/compras/nova', [CompraController::class, 'create'])
+    ->name('compras.create');
+
+Route::post('/compras', [CompraController::class, 'store'])
+    ->name('compras.store');
 
 Route::get('/categorias', function () {
     return view('categorias.index');

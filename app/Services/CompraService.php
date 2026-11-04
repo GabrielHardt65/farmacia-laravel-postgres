@@ -24,8 +24,7 @@ class CompraService
             );
         } catch (\Throwable $e) {
             throw ValidationException::withMessages([
-                'compra' => 'Não foi possível registrar a entrada do estoque: '
-                    . $e->getMessage(),
+                'compra' => 'Não foi possível registrar a entrada do estoque.',
             ]);
         }
     }
