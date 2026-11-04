@@ -1,58 +1,244 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema Interno de Farmácia
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Centro Universitário Campo Real — Engenharia de Software**
 
-## About Laravel
+Projeto desenvolvido para a disciplina de Banco de Dados e Desenvolvimento Back End.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Professores:** Bruno Dion e Dionatan Inhoato Markiu
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Integrantes:**
+- Gabriel Hardt
+- Luiz Gustavo Prado
+- Kauana Cravelin
+- Samara Almeida Ferreira
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Guarapuava — 2026
 
-## Learning Laravel
+## Sobre o projeto
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+O Sistema Interno de Farmácia é uma aplicação web desenvolvida para auxiliar no gerenciamento das operações de uma farmácia, permitindo organizar produtos, clientes, funcionários, compras, vendas, receitas médicas e estoque.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+O projeto utiliza a arquitetura MVC do Laravel, integrando uma interface web com um banco de dados PostgreSQL.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Tecnologias utilizadas
 
-## Agentic Development
+- PHP
+- Laravel
+- PostgreSQL
+- Blade
+- HTML, CSS e JavaScript
+- Git e GitHub
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Funcionalidades
 
-```bash
-composer require laravel/boost --dev
+- Cadastro, consulta e edição de produtos.
+- Gerenciamento de clientes e funcionários.
+- Controle de compras e entradas de estoque.
+- Registro e gerenciamento de vendas.
+- Gerenciamento de receitas médicas.
+- Relatórios de vendas, estoque e validade de produtos.
+- API REST para operações de clientes e produtos.
+- Integração com PostgreSQL utilizando functions, procedures e triggers.
 
-php artisan boost:install
+## Requisitos
+
+Para executar o projeto, é necessário possuir:
+
+- PHP 8.3 ou superior.
+- Composer.
+- Node.js e npm.
+- PostgreSQL.
+- Extensões PHP: `pdo_pgsql`, `pgsql`, `intl`, `zip` e `fileinfo`.
+
+## Como executar o projeto
+
+### 1. Clonar o repositório
+
+git clone https://github.com/GabrielHardt65/farmacia-laravel-postgres.git
+cd farmacia-laravel-postgres
+
+### 2. Instalar as dependências
+
+composer install
+npm install
+
+### 3. Configurar o ambiente
+
+Copie o arquivo de configuração de exemplo:
+cp .env.example .env
+php artisan key:generate
+
+No Windows PowerShell, também é possível utilizar:
+Copy-Item .env.example .env
+
+### 4. Configurar a conexão com o PostgreSQL
+
+Configure as variáveis de conexão no arquivo `.env`:
+
+DB_CONNECTION=pgsql
+DB_HOST=seu_host
+DB_PORT=5432
+DB_DATABASE=seu_banco
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+
+Substitua os valores pelos dados do ambiente PostgreSQL utilizado.
+
+Caso o servidor exija conexão SSL, configure-a conforme as exigências do provedor.
+
+**Não compartilhe senhas ou credenciais de acesso no README ou no repositório.**
+
+### 5. Configurar o banco de dados
+
+Os scripts SQL estão disponíveis na pasta:
+
+`database/scripts/`
+
+Execute os scripts de estrutura, dados e objetos do banco de dados conforme a ordem indicada nos arquivos.
+
+### 6. Compilar os arquivos do frontend
+
+npm run build
+
+### 7. Iniciar a aplicação
+
+php artisan serve
+
+A aplicação estará disponível em:
+
+http://127.0.0.1:8000
+
+## Rotas da aplicação
+
+As rotas da aplicação web estão definidas em `routes/web.php`.
+
+As rotas da API REST estão definidas em `routes/api.php`.
+
+Para visualizar todas as rotas registradas:
+
+php artisan route:list
+
+### Exemplos de rotas da API
+
+| Método | Rota | Objetivo |
+|---|---|---|
+| GET | `/api/vendas/{id}` | Consultar uma venda |
+| POST | `/api/vendas/{id}/finalizar` | Finalizar uma venda |
+
+### Exemplo de consulta
+
+Com a aplicação em execução, uma venda pode ser consultada utilizando:
+curl http://127.0.0.1:8000/api/vendas/1 -H "Accept: application/json"
+O exemplo utiliza o identificador `1` como referência. A resposta depende dos dados cadastrados no banco.
+**Atenção:** a rota de finalização de venda realiza alterações no banco de dados. Utilize um ambiente de testes para executar operações que modificam os registros.
+
+## Objetos do banco de dados
+
+O sistema utiliza objetos do PostgreSQL para implementar regras de negócio e operações relacionadas ao estoque e às vendas.
+
+### Functions
+
+| Function | Objetivo |
+|---|---|
+| `fn_estoque_produto` | Consultar informações relacionadas ao estoque de produtos. |
+| `fn_venda_exige_receita` | Verificar a necessidade de receita médica para uma venda. |
+
+### Procedures
+
+| Procedure | Objetivo |
+|---|---|
+| `sp_finalizar_venda` | Realizar a finalização de uma venda. |
+| `sp_registrar_compra_lote` | Registrar uma compra associada a lotes de produtos. |
+
+### Triggers
+
+| Trigger | Objetivo |
+|---|---|
+| `tg_baixa_estoque_lote` | Executar a baixa de estoque relacionada às operações de venda. |
+| `tg_valida_receita` | Aplicar validações relacionadas às receitas médicas. |
+
+Os objetos estão definidos nos scripts SQL disponíveis em `database/scripts/`.
+
+### Índices
+
+Os índices são utilizados para auxiliar na consulta e recuperação de dados.
+
+- Índice em `lotes.data_validade`.
+- Índice em `itens_venda.id_produto`.
+- Índice em `receitas.id_venda`.
+- Índice em `produtos.nome`.
+
+## Testes automatizados
+
+O projeto possui testes automatizados para verificar o funcionamento de funcionalidades da aplicação web e dos endpoints da API REST.
+
+Para executar os testes:
+php artisan test
+
+Os testes devem ser executados em um ambiente de testes separado do banco de dados utilizado em produção.
+
+## Backup e restauração
+
+Os procedimentos de backup e restauração do banco de dados estão documentados no script:
+
+`database/scripts/04_backup_restauracao.sql`
+
+Os procedimentos devem ser executados em um ambiente apropriado, respeitando as permissões de acesso ao banco de dados.
+
+## Estrutura do projeto
+
+O projeto está organizado seguindo a estrutura MVC do Laravel, separando as regras de negócio, os controladores, os modelos, as interfaces e as rotas da aplicação.
+
+```text
+farmacia-laravel-postgres/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── Api/
+│   │       └── Auth/
+│   ├── Models/
+│   └── Services/
+├── database/
+│   ├── factories/
+│   ├── migrations/
+│   ├── scripts/
+│   └── seeders/
+├── resources/
+│   ├── css/
+│   ├── js/
+│   └── views/
+├── routes/
+│   ├── api.php
+│   ├── console.php
+│   └── web.php
+├── tests/
+│   ├── Feature/
+│   └── Unit/
+├── artisan
+├── composer.json
+├── package.json
+└── README.md
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Descrição dos diretórios
 
-## Contributing
+| Diretório ou arquivo | Descrição |
+|---|---|
+| `app/Http/Controllers/` | Controladores responsáveis pelas requisições da aplicação web. |
+| `app/Http/Controllers/Api/` | Controladores responsáveis pelos endpoints da API REST. |
+| `app/Http/Controllers/Auth/` | Componentes relacionados à autenticação. |
+| `app/Models/` | Modelos utilizados na comunicação com os dados. |
+| `app/Services/` | Serviços que concentram regras e operações de negócio. |
+| `database/migrations/` | Arquivos de estruturação do banco de dados. |
+| `database/scripts/` | Scripts SQL de estrutura, dados e objetos do PostgreSQL. |
+| `resources/views/` | Interfaces web desenvolvidas com Blade. |
+| `resources/css/` | Arquivos de estilos da aplicação. |
+| `resources/js/` | Arquivos JavaScript da interface. |
+| `routes/web.php` | Rotas da aplicação web. |
+| `routes/api.php` | Rotas da API REST. |
+| `tests/Feature/` | Testes de funcionalidades e integração da aplicação. |
+| `tests/Unit/` | Testes unitários. |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Repositório
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+[GitHub — farmacia-laravel-postgres](https://github.com/GabrielHardt65/farmacia-laravel-postgres)
