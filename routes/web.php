@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -38,6 +37,14 @@ Route::post('/receitas', [ReceitaController::class, 'store'])
 
 Route::get('/receitas', [ReceitaController::class, 'index'])
     ->name('receitas.index');
+
+Route::get('/receitas/{id}', [ReceitaController::class, 'show'])
+    ->whereNumber('id')
+    ->name('receitas.show');
+
+Route::delete('/receitas/{id}', [ReceitaController::class, 'destroy'])
+    ->whereNumber('id')
+    ->name('receitas.destroy');
 
 Route::get('/pagamentos/novo', function () {
     return view('pagamentos.create');
@@ -93,6 +100,7 @@ Route::get('/fornecedores/novo', function () {
     return view('fornecedores.create');
 })->name('fornecedores.create');
 
+
 Route::get('/clientes', [ClienteController::class, 'index'])
     ->name('clientes.index');
 
@@ -102,6 +110,19 @@ Route::get('/clientes/novo', [ClienteController::class, 'create'])
 Route::post('/clientes', [ClienteController::class, 'store'])
     ->name('clientes.store');
 
+Route::get('/clientes/{cliente}/editar', [ClienteController::class, 'edit'])
+    ->name('clientes.edit');
+
+Route::put('/clientes/{cliente}', [ClienteController::class, 'update'])
+    ->name('clientes.update');
+
+Route::get('/clientes/{cliente}', [ClienteController::class, 'show'])
+    ->name('clientes.show');
+
+Route::delete('/clientes/{cliente}', [ClienteController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('clientes.destroy');
+
 Route::get('/funcionarios', [FuncionarioController::class, 'index'])
     ->name('funcionarios.index');
 
@@ -110,6 +131,19 @@ Route::get('/funcionarios/novo', [FuncionarioController::class, 'create'])
 
 Route::post('/funcionarios', [FuncionarioController::class, 'store'])
     ->name('funcionarios.store');
+
+Route::get('/funcionarios/{id}/editar', [FuncionarioController::class, 'edit'])
+    ->name('funcionarios.edit');
+
+Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update'])
+    ->name('funcionarios.update');
+
+Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'])
+    ->name('funcionarios.show');
+
+Route::delete('/funcionarios/{id}', [FuncionarioController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('funcionarios.destroy');
 
 Route::get('/relatorios', [RelatorioController::class, 'index'])
     ->name('relatorios.index');

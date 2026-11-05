@@ -34,6 +34,8 @@ class Funcionario extends Authenticatable
         'e_responsavel_tecnico' => 'boolean',
         'data_admissao' => 'date',
         'salario' => 'decimal:2',
+        'perfil_acesso' => 'string',
+        'pode_excluir_clientes' => 'boolean',
     ];
 
     public function getAuthPasswordName()
@@ -45,4 +47,21 @@ class Funcionario extends Authenticatable
     {
         return $this->senha;
     }
+
+
+    public function isAdmin(): bool
+    {
+        return $this->perfil_acesso === 'admin';
+    }
+
+    public function podeExcluirClientes(): bool
+    {
+        return $this->isAdmin() || $this->pode_excluir_clientes === true;
+    }
+
+    public function podeExcluirFuncionarios(): bool
+    {
+        return $this->isAdmin();
+    }
+
 }

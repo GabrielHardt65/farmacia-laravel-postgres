@@ -300,4 +300,49 @@ class ReceitaController extends Controller
             compact('receitas')
         );
     }
+    
+public function show($id)
+{
+    $receita = DB::table('samaraferreira_bd.receitas as r')
+        ->join('samaraferreira_bd.medicos as m', 'm.id_medico', '=', 'r.id_medico')
+        ->join('samaraferreira_bd.itens_venda as iv', 'iv.id_item_venda', '=', 'r.id_item_venda')
+        ->join('samaraferreira_bd.produtos as p', 'p.id_produto', '=', 'iv.id_produto')
+        ->join('samaraferreira_bd.vendas as v', 'v.id_venda', '=', 'r.id_venda')
+        ->join('samaraferreira_bd.clientes as c', 'c.id_cliente', '=', 'v.id_cliente')
+        ->where('r.id_receita', $id)
+        ->select(
+            'r.id_receita',
+            'r.numero_receita',
+            'r.data_emissao',
+            'r.validade_receita',
+            'r.cpf_paciente',
+            'r.tipo_receita',
+            'r.id_venda',
+            'm.nome as medico',
+            'm.crm',
+            'p.nome as medicamento',
+            'c.nome as cliente'
+        )
+        ->first();
+
+    abort_if(!$receita, 404);
+
+    return view('receitas.show', compact('receita'));
+}
+
+public function destroy($id)
+{
+    $excluida = DB::table('samaraferreira_bd.receitas')
+        ->where('id_receita', $id)
+        ->delete();
+
+    if (!$excluida) {
+        abort(404);
+    }
+
+    return redirect()
+        ->route('receitas.index')
+        ->with('success', 'Receita excluída com sucesso!');
+}
+
 }

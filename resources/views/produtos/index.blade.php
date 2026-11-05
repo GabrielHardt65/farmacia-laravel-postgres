@@ -229,8 +229,8 @@
     .produtos-acoes {
         display: flex;
         align-items: center;
-        gap: 7px;
-        flex-wrap: wrap;
+        gap: 8px;
+        flex-wrap: nowrap;
     }
 
     .produtos-acoes form {
@@ -241,27 +241,37 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 8px 11px;
+        width: 38px;
+        height: 38px;
+        padding: 0;
         border: 1px solid #f1b8d0;
         border-radius: 8px;
         background: #fff0f6;
         color: #cc3676;
-        font-size: 12px;
-        font-weight: 700;
         font-family: inherit;
         text-decoration: none;
-        white-space: nowrap;
         cursor: pointer;
+        transition: 0.2s ease;
     }
 
     .produto-btn-acao:hover {
         background: #fbdde9;
+        color: #c52e6d;
     }
 
     .produto-btn-acao.excluir {
         background: #fff0f1;
         border-color: #f3c0c6;
         color: #bf3449;
+    }
+
+    .produto-btn-acao.excluir:hover {
+        background: #fbdde9;
+    }
+
+    .produto-btn-acao svg {
+        width: 19px;
+        height: 19px;
     }
 
     .produtos-alerta {
@@ -410,33 +420,42 @@
 
                             <td>
                                 <div class="produtos-acoes">
-                                    <a
-                                        href="{{ route('produtos.show', $produto->id_produto) }}"
-                                        class="produto-btn-acao"
-                                    >
-                                        Visualizar
+                                    <a href="{{ route('produtos.show', $produto->id_produto) }}"
+                                       class="produto-btn-acao"
+                                       title="Visualizar produto"
+                                       aria-label="Visualizar produto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
+                                            <circle cx="12" cy="12" r="3"/>
+                                        </svg>
                                     </a>
 
-                                    <a
-                                        href="{{ route('produtos.edit', $produto->id_produto) }}"
-                                        class="produto-btn-acao"
-                                    >
-                                        Editar
+                                    <a href="{{ route('produtos.edit', $produto->id_produto) }}"
+                                       class="produto-btn-acao"
+                                       title="Editar produto"
+                                       aria-label="Editar produto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 20h9"/>
+                                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                                        </svg>
                                     </a>
 
-                                    <form
-                                        action="{{ route('produtos.destroy', $produto->id_produto) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Deseja realmente excluir este produto?');"
-                                    >
+                                    <form action="{{ route('produtos.destroy', $produto->id_produto) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Deseja realmente excluir este produto?');">
                                         @csrf
                                         @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="produto-btn-acao excluir"
-                                        >
-                                            Excluir
+                                        <button type="submit"
+                                                class="produto-btn-acao excluir"
+                                                title="Excluir produto"
+                                                aria-label="Excluir produto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M3 6h18"/>
+                                                <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                                                <path d="m19 6-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6"/>
+                                                <path d="M10 11v6"/>
+                                                <path d="M14 11v6"/>
+                                            </svg>
                                         </button>
                                     </form>
                                 </div>
